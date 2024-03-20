@@ -1,0 +1,93 @@
+{
+  "users": [
+    {
+      "id": "52e3",
+      "username": "Gouthamm",
+      "password": "1234",
+      "fullname": "Maganti Goutham",
+      "email": "mgoutham@mallareddyuniversity.ac.in",
+      "phone": "9885975628",
+      "country": "india",
+      "address": "Hyderabad",
+      "gender": "male"
+    }
+  ],
+  "students": [
+    {
+      "id": "57f2",
+      "std_htno": "2211CS010001",
+      "std_name": "ABC",
+      "std_password": "2211CS010001",
+      "std_group": "Group-7",
+      "std_email": "2211CS010001@mallareddyuniversity.ac.in",
+      "std_mobile": "1234567689",
+      "gender": "male"
+    },
+    {
+      "id": "f1cd",
+      "std_htno": "2211CS010002",
+      "std_name": "2211CS010002",
+      "std_password": "2211CS010002",
+      "std_group": "Group-8",
+      "std_email": "2211CS010002@mallareddyuniversity.ac.in",
+      "std_mobile": "1234567689",
+      "gender": ""
+    },
+    {
+      "id": "d808",
+      "std_htno": "2211CS010002",
+      "std_name": "2211CS010002",
+      "std_password": "2211CS010002",
+      "std_group": "Group-8",
+      "std_email": "2211CS010002@mallareddyuniversity.ac.in",
+      "std_mobile": "1234567689",
+      "gender": ""
+    },
+    {
+      "id": "72a1",
+      "std_htno": "2211CS010002",
+      "std_name": "2211CS010002",
+      "std_password": "2211CS010002",
+      "std_group": "Group-8",
+      "std_email": "2211CS010002@mallareddyuniversity.ac.in",
+      "std_mobile": "1234567689",
+      "gender": ""
+    },
+    {
+      "id": "a376",
+      "std_htno": "2211CS010002",
+      "std_name": "2211CS010002",
+      "std_password": "2211CS010002",
+      "std_group": "Group-7",
+      "std_email": "2211CS010002@mallareddyuniversity.ac.in",
+      "std_mobile": "1234567689",
+      "gender": "male"
+    }
+  ],
+  "employees": [
+    {
+      "id": "123",
+      "name": "gaiyas",
+      "email": "sadasd@gmail.com",
+      "phone": "123456",
+      "role": "Student",
+      "active": true
+    },
+    {
+      "id": "MRUE2111T060",
+      "name": "Maganti Gouthamm",
+      "email": "mgoutham@mallareddyuniversity.ac.in",
+      "phone": "9885975628",
+      "role": "Faculty",
+      "active": true
+    },
+    {
+      "id": "2211CS010001",
+      "name": "2211CS010001",
+      "email": "2211CS010001@mallareddyuniversity.ac.in",
+      "phone": "123456789",
+      "role": "Student",
+      "active": true
+    }
+  ]
+}
