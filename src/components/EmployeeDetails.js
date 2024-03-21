@@ -34,7 +34,18 @@ const EmployeeDetails=()=>{
 
     }
     const HandlerDeleteEmp=(id)=>{
-        navigate('/employees/delete/'+id);
+        if(window.confirm('Do you want to Delete Employee??')){
+
+            fetch('http://localhost:3030/employees/'+id,{
+            method:'DELETE'
+            }).then((res)=>{
+                alert('Employee Deleted Successfully...');
+                window.location.reload();
+                
+            }).catch((err)=>{
+                alert("Failed to :"+err.message);
+            })
+        }
 
     }
 
@@ -42,7 +53,8 @@ const EmployeeDetails=()=>{
 
 
     const HandleFetchEmployees = async()=>{
-        const response= await fetch("http://localhost:3030/employees")
+        //const response= await fetch("http://localhost:3030/employees")
+        const response= await fetch("https://projectdata-1-viir.onrender.com/employees")
         const data= await response.json();    
         setemployeedata(data);     
     }

@@ -37,7 +37,8 @@ const AddStudentComponent=()=>{
       const HandleAddStudent=(event)=>{
           event.preventDefault();
          console.log(newstddata);
-          fetch("http://localhost:3030/students",{
+        //  fetch("http://localhost:3030/students",{
+        fetch("https://projectdata-1-viir.onrender.com/students",{
             method:"POST",
             headers:{'Content-type':'application/json'},
             body:JSON.stringify(newstddata)

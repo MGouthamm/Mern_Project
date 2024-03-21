@@ -36,7 +36,8 @@ const RegistrationPage=()=>{
         e.preventDefault();
        // console.log(registrationdata);
 
-        fetch("http://localhost:3030/users",{
+        //fetch("http://localhost:3030/users",{
+        fetch("https://projectdata-1-viir.onrender.com/users",{
             method: "POST",
             headers:{'Content-type':'application/json'},
             body:JSON.stringify(registrationdata)

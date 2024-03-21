@@ -1,6 +1,9 @@
 //import logo from './logo.svg';
 import { BrowserRouter, Link, Outlet, Route, Routes } from 'react-router-dom';
+  
 import './App.css';
+
+
 import HomePage from './components/Home';
 import StudentPage from './components/StudentPage';
 import AddStudentComponent from './components/NewStudentPage';
@@ -10,8 +13,9 @@ import EmployeeDetails from './components/EmployeeDetails';
 import DetailsEmployee from './components/DetailsEmployeePage';
 import CreateEmployee from './components/CreateEmployeePage';
 import EditEmployee from './components/EditEmployeePage';
-import DeleteEmployee from './components/DeleteEmployeePage';
 import GenderSelection from './components/Gender';
+import Login from './components/LoginPage';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 
@@ -32,7 +36,8 @@ function App() {
 
       <BrowserRouter>
           <Routes>
-            <Route exact path='/' element={<HomePageComponent/>}/>
+            <Route  path='/' element={<Login/>}/>
+            <Route path='/LoginPage' element={<Login/>}/>
             <Route exact path='/Home' element={<HomePageComponent/>}/>
             <Route path='/StudentPage' element={<StudentPage/>}/>
             <Route path='/NewStudentPage' element={<AddStudentComponent/>}/>
@@ -41,7 +46,6 @@ function App() {
             <Route path='/employees/create' element={<CreateEmployee/>}/>
             <Route path='/employees/edit/:id' element={<EditEmployee/>}/>
             <Route path='/employees/details/:id' element={<DetailsEmployee/>}/>
-            <Route path='/employees/delete/:id' element={<DeleteEmployee/>}/>
 
 
             

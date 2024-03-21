@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import Login from "./LoginPage";
 
 
 
-
-
 const HomePageComponent=()=>{
+
+    const [loginformdata, setloginformdata] = useState({
+        username:'',
+        password:''
+    });
+
+    const HandleUserFormData=()=>{
+        //fetch("http://localhost:3030/users").then(res=>{
+
+        fetch("https://projectdata-1-viir.onrender.com/users").then(res=>{
+            return res.json();
+        }).then(response=>{
+             response.map((user)=>{
+                setloginformdata(user);
+             })
+            
+        })
+
+    }
+    useEffect(()=>{
+        HandleUserFormData();
+    },[])
 
     return(
 
@@ -26,16 +46,22 @@ const HomePageComponent=()=>{
                                                 <Link to="/Home" style={{textDecoration:"none"}}>Home</Link>
                                             </a>
                                         </li>
+                                        { loginformdata.username && 
                                         <li class="nav-item">
                                             <a class="nav-link active" aria-current="page" href="#">
                                                 <Link to="/StudentPage" style={{textDecoration:"none"}}>Students</Link>
                                             </a>
                                         </li>
+                                        }
+                                        { loginformdata.username && 
+
                                         <li class="nav-item">
                                             <a class="nav-link active" aria-current="page" href="#">
                                                 <Link to="/EmployeeDetails" style={{textDecoration:"none"}}>Employees</Link>
                                             </a>
                                         </li>
+                                        }
+                                        
                                         
                                     </ul>
 
@@ -50,7 +76,7 @@ const HomePageComponent=()=>{
                     </div>
                     <div className="col-auto">
                             <a class="nav-link active" aria-current="page" href="#" style={{marginLeft: 10}}>
-                                        <Link to="">Logout</Link>
+                                        <Link to="/LoginPage">Logout</Link>
                             </a>
                     </div>
                 </nav>
