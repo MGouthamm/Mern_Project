@@ -18,11 +18,7 @@ const CreateEmployee=()=>{
 
     const HandleActive=(event)=>{
        // const [name, checked]=event.target;
-        //setchangeactive(event.target.checked);
-        const {name, checked}=event.target;
-        setchangeactive((prevactive)=>{
-            return{...prevactive, name:checked}
-        })
+        setchangeactive(event.target.checked);
     }
 
 
@@ -32,7 +28,7 @@ const CreateEmployee=()=>{
         const name=event.target.name;
         const value=event.target.value;
         setcreateemployeedata((prevstate)=>{
-            return{...prevstate, [name]:value}
+            return{...prevstate, [name]:value, active}
         })
 
     }
@@ -42,8 +38,7 @@ const CreateEmployee=()=>{
         //console.log(createemployeedata);
 
 
-        //fetch('http://localhost:3030/employees',{
-        fetch('https://projectdata-1-viir.onrender.com/employees',{
+        fetch('http://localhost:3030/employees',{
             method:'POST',
             headers:{'Content-type':'application/json'},
             body:JSON.stringify(createemployeedata)
@@ -110,7 +105,7 @@ const CreateEmployee=()=>{
                                     </div>
                                     <div className="col-lg-12">
                                             <div className="form-check">
-                                                <input type="checkbox" className="form-check-input" name="active"  onChange={HandleActive} />
+                                                <input type="checkbox" className="form-check-input" name="active" checked={active} onChange={HandleActive} />
                                                 <label className="form-check-label">Is Active</label>
                                             </div>
                                             

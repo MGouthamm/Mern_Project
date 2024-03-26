@@ -36,15 +36,15 @@ const RegistrationPage=()=>{
         e.preventDefault();
        // console.log(registrationdata);
 
-        //fetch("http://localhost:3030/users",{
-        fetch("https://projectdata-1-viir.onrender.com/users",{
+        fetch("http://localhost:3030/users",{
+        //fetch("https://projectdata-6knq.onrender.com/users",{
             method: "POST",
             headers:{'Content-type':'application/json'},
             body:JSON.stringify(registrationdata)
         }).then((res)=>{
                 //toast.success('Registered Successfully')
                 alert('Registered Successfully')
-                navigate('/Home')
+                navigate('/LoginPage')
         }).catch((err)=>{
                 //toast.error('Failed :'+err.message)
                 alert('Failed :'+err.message)

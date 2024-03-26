@@ -31,9 +31,8 @@ const Login=()=>{
            // console.log('proceed');
 
 
-    //    fetch("http://localhost:3030/users").then(res=>{
-
-        const res=fetch("https://projectdata-1-viir.onrender.com/users").then(res=>{
+        fetch("http://localhost:3030/users").then(res=>{
+       // fetch("https://projectdata-1-viir.onrender.com/users").then(res=>{
             return res.json();
         }).then(response=>{
              response.map((user)=>{
@@ -42,7 +41,7 @@ const Login=()=>{
                 // }else{
                 if(user.username===loginformdata.username)
                     if(user.password===loginformdata.password){
-                      //  alert('Login Suceessfully');
+                        alert('Login Suceessfully');
                         navigate('/Home');
                     }
                     else{
@@ -54,9 +53,6 @@ const Login=()=>{
         }).catch((err)=>{
              alert('Login Failed due to:'+err.message);
         })
-
-
-        
           
     //        fetch("http://localhost:4000/users/"+loginformdata.username).then((res)=>{
     //         if(!res.ok){
@@ -87,7 +83,7 @@ const Login=()=>{
          }
     }
 
-
+//Validation Logic
     const validate=()=>{
         let result=true;
         if(loginformdata.username===''|| loginformdata.username===null){
@@ -112,7 +108,7 @@ const Login=()=>{
                     <div class="row">
                         <div class="col-lg-11 offset-lg-1">
                         <h3 class="mb-3" style={{textAlign:"center"}}>Login Now</h3>
-                            <div class="bg-white shadow rounded" >
+                            <div class="bg-white shadow rounded" style={{width: 800, marginLeft: 200}}>
                                 <div class="row">
                                     <div class="col-md-7 pe-0">
                                         <div class="form-left h-100 py-5 px-5">

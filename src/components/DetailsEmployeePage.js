@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 
 
 const DetailsEmployee=()=>{
-   const {id}=useParams();
+    const {id}=useParams();
 
     console.log(id);
 
@@ -12,8 +12,7 @@ const DetailsEmployee=()=>{
 
 
     const HandlerEmpDetails=()=>{
-        //fetch('http://localhost:3030/employees/'+id).then((res)=>{
-      fetch('https://projectdata-1-viir.onrender.com/employees/'+id).then((res)=>{
+        fetch('http://localhost:3030/employees/'+id).then((res)=>{
             return res.json();
         }).then((resp)=>{
             setempdatachange(resp);
@@ -31,7 +30,7 @@ const DetailsEmployee=()=>{
     return(
         <div>
             <h4 className="text-secondary" style={{textAlign: "center"}}>Details Employee Content Here .......</h4>
-            <div className="card" style={{width: 500, marginLeft: 500, marginTop: 100, backgroundColor: '#9FE2BF'}}>
+            <div className="card" style={{width: 500, marginLeft: 500, marginTop: 100}}>
                 <div className="card-title">
                     <h4 className="text-primary" style={{textAlign:"center"}}>Employee Details</h4>
                 </div>

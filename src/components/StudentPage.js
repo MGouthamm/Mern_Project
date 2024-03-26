@@ -15,8 +15,8 @@ const StudentPage=()=>{
 
       const HandleFetchStudent=async ()=>{
 
-        //const response = await fetch("http://localhost:3030/students");
-        const response = await fetch("https://projectdata-1-viir.onrender.com/students");
+        const response = await fetch("http://localhost:3030/students");
+        //const response = await fetch("https://projectdata-2.onrender.com/students");
         const studentsdata = await response.json();
         setStudentData(studentsdata);
 

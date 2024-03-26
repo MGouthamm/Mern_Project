@@ -1,38 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import Login from "./LoginPage";
 
 
 
+
+
 const HomePageComponent=()=>{
 
-    const [loginformdata, setloginformdata] = useState({
-        username:'',
-        password:''
-    });
+    const [isLoggedIn, setisLoggedIn] = useState('')
 
-    const HandleUserFormData=()=>{
-        //fetch("http://localhost:3030/users").then(res=>{
-
-        fetch("https://projectdata-1-viir.onrender.com/users").then(res=>{
-            return res.json();
-        }).then(response=>{
-             response.map((user)=>{
-                setloginformdata(user);
-             })
-            
-        })
-
-    }
-    useEffect(()=>{
-        HandleUserFormData();
-    },[])
+   
 
     return(
 
         <div className="container-fluid">
 
             <div className="row">
+                {/* {isLoggedIn && */}
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
                     <div className="col-lg-3">
@@ -46,22 +31,16 @@ const HomePageComponent=()=>{
                                                 <Link to="/Home" style={{textDecoration:"none"}}>Home</Link>
                                             </a>
                                         </li>
-                                        { loginformdata.username && 
                                         <li class="nav-item">
                                             <a class="nav-link active" aria-current="page" href="#">
                                                 <Link to="/StudentPage" style={{textDecoration:"none"}}>Students</Link>
                                             </a>
                                         </li>
-                                        }
-                                        { loginformdata.username && 
-
                                         <li class="nav-item">
                                             <a class="nav-link active" aria-current="page" href="#">
                                                 <Link to="/EmployeeDetails" style={{textDecoration:"none"}}>Employees</Link>
                                             </a>
                                         </li>
-                                        }
-                                        
                                         
                                     </ul>
 
@@ -80,6 +59,7 @@ const HomePageComponent=()=>{
                             </a>
                     </div>
                 </nav>
+                {/* } */}
             </div>
       
             <div className="row">
@@ -92,7 +72,7 @@ const HomePageComponent=()=>{
                     {/* <h5>Second column</h5> */}
                 </div>
                 <div className="col-lg-6">
-                    <Login/>
+                    {/* <Login/> */}
                 </div>
             </div>
             <div className="row">
