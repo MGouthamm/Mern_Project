@@ -11,6 +11,20 @@ const EmployeeDetails=()=>{
 
     const navigate=useNavigate();
 
+    // const HandleFetchEmployees= async ()=>{
+    //      await fetch("http://localhost:3030/employees").then((respone)=>{
+    //         return respone.json;
+    //      }).then((resp)=>{
+    //          s
+    //         })
+            
+    //      }).catch((err)=>{
+    //         alert('Failed :'+err.message)
+
+    //      })
+    // }
+
+
     const HandlerLoadEmpDetails=(id)=>{
         navigate('/employees/details/'+id);
 
@@ -32,31 +46,24 @@ const EmployeeDetails=()=>{
                 alert("Failed to :"+err.message);
             })
         }
+
     }
 
 
 
-
-    // const HandleFetchEmployees = async()=>{
-    //     const response= await fetch("http://localhost:3030/employees")
-    //     const data= await response.json();    
-    //     setemployeedata(data);     
-    // }
-
-    // useEffect(()=>{
-    //     HandleFetchEmployees();
-    // },[])
-
-    // console.log(employeedata)
 
     const HandleFetchEmployees = async()=>{
-        const response=await fetch("http://localhost:3030/employees")
-        const data= await response.json();
-        setemployeedata(data);
+        const response= await fetch("http://localhost:3030/employees")
+        //const response= await fetch("https://projectdata-1-viir.onrender.com/employees")
+        const data= await response.json();    
+        setemployeedata(data);     
     }
+
     useEffect(()=>{
         HandleFetchEmployees();
     },[])
+
+    console.log(employeedata)
 
     return(
         <div className="container">
@@ -91,20 +98,13 @@ const EmployeeDetails=()=>{
                                             <td>{emp.phone}</td>
                                             <td>{emp.role}</td>
                                             <td>{emp.active}</td>
-                                             {/* {  emp.role === 'Admin' &&   */}
+                                            {/* { emp.role === 'Admin' && */}
                                             <td style={{textAlign: "center"}}>
-                                                {/* <Link to="/DetailsEmployeePage" className="text-primary" style={{marginLeft: 10}}>Details</Link>
-                                                <Link to="/EditEmployeePage" className="text-success" style={{marginLeft: 10}} >Edit</Link>
-                                                <Link to="/DeleteEmployeePage" className="text-danger" style={{marginLeft: 10}} >Remove</Link> */}
-
                                                 <a className="text-primary" onClick={()=>{HandlerLoadEmpDetails(emp.id)}} style={{marginLeft: 10}} >Details</a>
                                                 <a className="text-success" onClick={()=>{HandlerEditEmp(emp.id)}} style={{marginLeft: 10}}>Edit</a>
                                                 <a className="text-danger" onClick={()=>{HandlerDeleteEmp(emp.id)}} style={{marginLeft: 10}} >Remove</a>
-                                            
-                                            
-
                                             </td>
-                                             {/* }  */}
+                                            {/* } */}
                                            </tr>
                                     ))
 

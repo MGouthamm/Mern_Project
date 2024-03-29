@@ -27,22 +27,28 @@ const EditEmployee=()=>{
         //active: true // Assuming active is initially true
     });
 
+    // useEffect function to fetch employee data through id
     useEffect(() => {
-        fetch(`http://localhost:3030/employees/${id}`)
+        fetch(`http://localhost:3030/employees/`+id)
+        //fetch(`https://projectdata-1-viir.onrender.com/employees`+id)
             .then(res => res.json())
             .then(resp => seteditemployeedata(resp))
             .catch(err => alert("Failed to get: " + err.message));
     }, [id]);
 
+    // Handler function on employee data change
     const HandleEditEmployeeDataChange = event => {
         const { name, value } = event.target;
         seteditemployeedata(prevState => ({ ...prevState, [name]: value }));
     };
 
-    const HandleProceedEditEmployee = event => {
+
+    //Handler function for edit employee
+    const HandleProceedEditEmployee = (event) => {
         event.preventDefault();
 
-        fetch(`http://localhost:3030/employees/${id}`, {
+            //fetch(`http://localhost:3030/employees/`+id, {
+            fetch(`https://projectdata-1-viir.onrender.com/employees/`+id, {
             method: 'PUT',
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(editemployeedata)
@@ -55,12 +61,9 @@ const EditEmployee=()=>{
                 throw new Error('Failed to update employee details');
             }
         })
-        .catch(err => alert('Failed: ' + err.message));
-    };
-
-
-    
-    
+        .catch(err => alert('Error Updating the Employee Data: ' + err.message));
+        };
+        
     return(
         <div>
             <h4 className="text-secondary" style={{textAlign: "center"}}>Edit Employee Content Here .......</h4>

@@ -25,7 +25,7 @@ const RegistrationPage=()=>{
 
 
     const HandleRegistrationDataChange=(event)=>{
-        const name=event.target.name;
+            const name=event.target.name;
         const value=event.target.value;
         setregistrationdata((prevstate)=>{
             return{...prevstate, [name]:value, gender}
@@ -37,14 +37,15 @@ const RegistrationPage=()=>{
        // console.log(registrationdata);
 
         fetch("http://localhost:3030/users",{
-        //fetch("https://projectdata-6knq.onrender.com/users",{
+        //fetch("https://projectdata-1-viir.onrender.com/users",{
             method: "POST",
             headers:{'Content-type':'application/json'},
             body:JSON.stringify(registrationdata)
         }).then((res)=>{
                 //toast.success('Registered Successfully')
                 alert('Registered Successfully')
-                navigate('/LoginPage')
+              //  localStorage.setItem('jwt', res.jwt);
+                navigate('/Login')
         }).catch((err)=>{
                 //toast.error('Failed :'+err.message)
                 alert('Failed :'+err.message)
@@ -129,7 +130,7 @@ const RegistrationPage=()=>{
                         </div>
                         <div className="card-footer">
                             <button type="submit" className="btn btn-sm btn-primary">Register</button>
-                            <Link className="btn btn-sm btn-danger" style={{marginLeft: 10}} to="/Home">Back</Link>
+                            <Link className="btn btn-sm btn-danger" style={{marginLeft: 10}} to="/">Back</Link>
 
                             {/* <a className="btn btn-sm btn-danger" style={{marginLeft: 10}}>Back</a> */}
                         </div>

@@ -1,114 +1,86 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
+
+
+function ProtectedRoute(){
+    const navigate=useNavigate();
+    const jwt=localStorage.getItem('jwt');
+    if(!jwt){
+        return navigate('/');
+    }
+    else {
+        return navigate('/Home');
+    }
+}
 
 
 const Login=()=>{
  
-   const [loginformdata, setloginformdata] = useState({
-        username:'',
-        password:''
-    });
+    const [username, updateusername]=useState('');
+    const [password, updatepassword]=useState('');
 
     //for Navigation purpose
 
     const navigate=useNavigate();
 
-    //Handler for Form Data Change
-    const HandleFormDataChange=(event)=>{
-        const name=event.target.name;
-        const value=event.target.value;
-        setloginformdata((prevstate)=>{
-            return{...prevstate, [name]:value}
-        });
-    }
+      useEffect(()=>{
+
+        },[])
+    
 
     //Handler for Proceed Login
     const ProceedLogin=(event)=>{
         event.preventDefault();
         //console.log(loginformdata);
         if(validate()){
-           // console.log('proceed');
-
-
-        fetch("http://localhost:3030/users").then(res=>{
-       // fetch("https://projectdata-1-viir.onrender.com/users").then(res=>{
-            return res.json();
-        }).then(response=>{
-             response.map((user)=>{
-                // if(Object.keys(user).length===0){
-                //       alert('Please Enter Valid Username');
-                // }else{
-                if(user.username===loginformdata.username)
-                    if(user.password===loginformdata.password){
+   
+            fetch("http://localhost:3030/users").then(res=>{
+            //  const res=fetch("https://projectdata-1-viir.onrender.com/users").then(res=>{
+                return res.json();
+            }).then((response)=>{
+                response.map((user)=>{
+                    if(user.username===username){
+                        if(user.password === password){
                         alert('Login Suceessfully');
-                        navigate('/Home');
+                        sessionStorage.setItem('username', username)
+                            navigate('/Home');
+                           // history.push('/Home');
+                        }
                     }
-                    else{
-                        alert('Invalid Credentials');
-                    }
-                
-            //}
+                        else{
+                            alert('Please Enter valid Credentials');
+                        }
+                })
+            }).catch((err)=>{
+                alert('Login Failed due to:'+err.message);
             })
-        }).catch((err)=>{
-             alert('Login Failed due to:'+err.message);
-        })
-          
-    //        fetch("http://localhost:4000/users/"+loginformdata.username).then((res)=>{
-    //         if(!res.ok){
-    //             throw new Error('User not Found');
-    //         }
-    //         return res.json();
-    //         console.log(res.json());
-    //        }).then((users)=>{
-    //             users.forEach((user) => {
-
-    //                 if(Object.keys(user).length===0){
-    //                     alert('Please Enter Valid Username');
-    //                 }else{
-    //                     if(user.password===loginformdata.password){
-    //                         navigate('/WelcomePage');
-    //                     }else{
-    //                         alert('Please Enter Valid Credentials');
-    //                     }
-    //                 }
-    //             });
-    //             //console.log(resp);
-               
-
-    //        }).catch((err)=>{
-    //             alert('Login Failed due to:'+err.message);
-    //        })
-
-         }
+        }
     }
 
-//Validation Logic
     const validate=()=>{
         let result=true;
-        if(loginformdata.username===''|| loginformdata.username===null){
+        if(username===''|| username===null){
             result=false;
             alert('Please Enter Username');   
         }
-        if(loginformdata.password===''||loginformdata.password===null){
+        if(password===''||password===null){
             result=false;
             alert('Please Enter Password');
         }
         return result;
-
     }
-
-
 
     return(
         <div className="row">
           
             <div class="login-page bg-light">
-                <div class="container">
+                <div class="container" style={{width:1000}}>
                     <div class="row">
                         <div class="col-lg-11 offset-lg-1">
                         <h3 class="mb-3" style={{textAlign:"center"}}>Login Now</h3>
-                            <div class="bg-white shadow rounded" style={{width: 800, marginLeft: 200}}>
+                            <div class="bg-white shadow rounded" >
                                 <div class="row">
                                     <div class="col-md-7 pe-0">
                                         <div class="form-left h-100 py-5 px-5">
@@ -117,7 +89,7 @@ const Login=()=>{
                                                         <label style={{display:"flex"}}>Username<span class="text-danger">*</span></label>
                                                         <div class="input-group">
                                                             <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
-                                                            <input type="text" class="form-control" name="username" value={loginformdata.username} placeholder="Enter Username" onChange={HandleFormDataChange}/>
+                                                            <input type="text" class="form-control" name="username" value={username} placeholder="Enter Username" onChange={e=>updateusername(e.target.value)}/>
                                                         </div>
                                                     </div>
 
@@ -125,7 +97,7 @@ const Login=()=>{
                                                         <label style={{display: "flex"}}>Password<span class="text-danger">*</span></label>
                                                         <div class="input-group">
                                                             <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
-                                                            <input type="password" class="form-control" name="password" value={loginformdata.password} placeholder="Enter Password" onChange={HandleFormDataChange}/>
+                                                            <input type="password" class="form-control" name="password" value={password} placeholder="Enter Password" onChange={e=>updatepassword(e.target.value)}/>
                                                         </div>
                                                     </div>
 
