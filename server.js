@@ -6,8 +6,11 @@ const employeeSchema=require('./model');
 
 //use the express
 var app=express();
+const PORT=8000;
 
 //bodyparser to be used for sending and receiving data
+const URI = "mongodb://0.0.0.0:0/lmallareddy";
+
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -16,26 +19,12 @@ app.use(bodyParser.json());
 
 //const DBUrl="mongodb://localhost:27017/employeeSchema";
 //mongoose.connect("mongodb://localhost:27017/employeeSchema", {useNewUrlParser:true, useUnifiedTopology:true})
-mongoose.connect("mongodb://127.0.0.1:27017/employeeSchema")
+mongoose.connect(URI)
 .then(()=>{
     console.log("Database connected Successfully....");
 })
 .catch((error)=>{
     console.log("Failed to connect mongoDB", error);
-})
-
-
-
-const port=8000;
-
-//Server Connection Establishment
-app.listen(port,(error)=>{
-    if(error){
-        console.log("Failed to connect server");
-    }
-    else{
-        console.log(`Server started and Server running on ${port}`)
-    }
 })
 
 app.get('/',(req,res)=>{
@@ -69,9 +58,9 @@ app.get('/contact',(req,res)=>{
 //writng addemployee route to push the data
 
 app.post('/addemployee', async(req,res)=>{
-    const {id, name, email, phone, role, active}=req.body;
+   const {empId, empname, empemail, empphone, emprole, empactive}=req.body;
     try{
-        const newemployee= new employeeSchema({id, name, email, phone, role, active});
+        const newemployee= new employeeSchema({empId, empname, empemail, empphone, emprole, empactive});
         await newemployee.save();
 
         //every new employee will move to the allemployee object
@@ -116,5 +105,16 @@ app.delete('/deleteemployee/:id', async(req,res)=>{
     }
     catch(error){
         console.log(error.message);
+    }
+})
+
+
+//Server Connection Establishment
+app.listen(PORT,(error)=>{
+    if(error){
+        console.log("Failed to connect server");
+    }
+    else{
+        console.log(`Server started and Server running on ${PORT}`)
     }
 })
