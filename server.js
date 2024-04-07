@@ -9,12 +9,22 @@ const userSchema=require('./usermodel');
 var app=express();
 const PORT=8000;
 
+
+
 //bodyparser to be used for sending and receiving data
 //const URI = "mongodb://0.0.0.0:0/lmallareddy";
 const URI="mongodb://localhost:27017/employeeSchema";
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+});
+
 
 //Database connection Establishment
 
@@ -76,7 +86,7 @@ app.post('/addemployee', async(req,res)=>{
 //writing registration page route to push the data
 
 app.post('/register', async(req, res)=>{
-    const {username, password, fullname, email, phone, country,address, gender}=req.body
+    const {username, password, fullname, email, phone, country,address}=req.body
 
     if(!username || !password || !fullname || !email || !phone || !country || !address){
         return res.status(422).json({error: "Please fill the fields properly!!!"});
@@ -85,6 +95,7 @@ app.post('/register', async(req, res)=>{
         const userExist=await userSchema.findOne({username: username});
         if(userExist){
             return res.status(422).json({error: "Username Already Exists!!!"});
+            
         }
         else{
             const newuser = new userSchema({username, password, fullname, email, phone, country,address});
@@ -92,8 +103,8 @@ app.post('/register', async(req, res)=>{
             res.status(201).json({message:"User Registered Successfully..."});
     
             //every new users will move to the users object
-          //  const newusers=await userSchema.find();
-          //return res.json(newusers);
+         //   const newusers=await userSchema.find();
+           // return res.json(newusers);
 
         }
        
@@ -103,8 +114,20 @@ app.post('/register', async(req, res)=>{
     }
 })
 
+//writing registration page route to get the data
+app.get('/register', async(req, res)=>{
 
-
+    try{
+        const userExist = await userSchema.findOne({username:username})
+        if(userExist){
+            return res.json(users);
+        }
+        
+    }
+    catch(error){
+        console.log(error.message);
+    }
+})
 
 
 //implementing get request
