@@ -114,7 +114,7 @@ const Login=()=>{
 
                                                     <div class="col-auto" style={{display:"flex"}}>
                                                         <button type="submit" class="btn btn-sm btn-primary">Login</button>
-                                                        <Link className="text-danger" style={{marginLeft: 10}} to="/RegistrationPage">New User</Link>
+                                                        <Link className="text-danger" style={{marginLeft: 10}} to="/register">New User</Link>
                                                     </div>                                     
                                             </form>
                                         </div>

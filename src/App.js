@@ -15,7 +15,6 @@ import CreateEmployee from './components/CreateEmployeePage';
 import EditEmployee from './components/EditEmployeePage';
 import GenderSelection from './components/Gender';
 import Login from './components/LoginPage';
-import { ToastContainer, toast } from 'react-toastify';
 
 
 
@@ -43,7 +42,7 @@ function App() {
            {/* <ProtectedRoute path='/Home'><HomePageComponent/></ProtectedRoute> */}
             <Route path='/StudentPage' element={<StudentPage/>}/>
             <Route path='/NewStudentPage' element={<AddStudentComponent/>}/>
-            <Route path='/RegistrationPage' element={<RegistrationPage/>}/>
+            <Route path='/register' element={<RegistrationPage/>}/>
             <Route path='/EmployeeDetails' element={<EmployeeDetails/>}/>
             <Route path='/employees/create' element={<CreateEmployee/>}/>
             <Route path='/employees/edit/:id' element={<EditEmployee/>}/>

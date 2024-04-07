@@ -11,6 +11,7 @@ const RegistrationPage=()=>{
         phone:'',
         country:'',
         address:'',
+    //    gender:''
     });
     
   // Initialize state for gender
@@ -25,39 +26,67 @@ const RegistrationPage=()=>{
 
 
     const HandleRegistrationDataChange=(event)=>{
-            const name=event.target.name;
+        const name=event.target.name;
         const value=event.target.value;
         setregistrationdata((prevstate)=>{
-            return{...prevstate, [name]:value, gender}
+            return{...prevstate, [name]:value}
         })
 
     }
-    const HandleRegistration=(e)=>{
+    // const HandleRegistration=(e)=>{
+    //     e.preventDefault();
+    //    // console.log(registrationdata);
+
+    //    fetch("http://localhost:8000/addusers", {registrationdata
+    //    // fetch("http://localhost:3030/users",{
+    //     //fetch("https://projectdata-1-viir.onrender.com/users",{
+    //         // method: "POST",
+    //         // headers:{'Content-type':'application/json'},
+    //         // body:JSON.stringify(registrationdata)
+    //     })
+    //     .then((res)=>{
+    //             //toast.success('Registered Successfully')
+    //             alert('Registered Successfully')
+    //           //  localStorage.setItem('jwt', res.jwt);
+    //             navigate('/')
+    //     }).catch((err)=>{
+    //             //toast.error('Failed :'+err.message)
+    //             alert('Failed :'+err.message)
+    //     })
+    //}
+    
+    
+    
+    const PostRegistrationData = async (e)=>{
         e.preventDefault();
-       // console.log(registrationdata);
+        const {username, password, fullname, email, phone, country,address}=registrationdata;
 
-        fetch("http://localhost:3030/users",{
-        //fetch("https://projectdata-1-viir.onrender.com/users",{
-            method: "POST",
+       const res =  fetch("http://localhost:8000/register", {
+            method:"POST",
             headers:{'Content-type':'application/json'},
-            body:JSON.stringify(registrationdata)
-        }).then((res)=>{
-                //toast.success('Registered Successfully')
-                alert('Registered Successfully')
-              //  localStorage.setItem('jwt', res.jwt);
-                navigate('/Login')
-        }).catch((err)=>{
-                //toast.error('Failed :'+err.message)
-                alert('Failed :'+err.message)
-        })
+            body:JSON.stringify({username, password, fullname, email, phone, country,address})
+        });
+       
+        const data = await res.json();
+        
+        console.log(data);
 
-
-
+        if(data.status===422 || !data){
+            window.alert("Invalid Registration");
+            console.log("Invalid Registration")
+        }
+        else{
+            window.alert("Registration Successfull.....");
+            console.log("Registraion Successfull...");
+            navigate('/');
+        }
     }
+       
+       
     return(
         <div>
             <div className="offset-lg-3 col-lg-6">
-                <form className="container" onSubmit={HandleRegistration}>
+                <form method="post" className="container" >
                     <div className="card">
                         <div className="card-header">
                             <h4 style={{textAlign: "center"}}>User Registration</h4>
@@ -116,8 +145,8 @@ const RegistrationPage=()=>{
                                 <div className="col-auto">
                                     <div className="form-group" >
                                         <label>Gender <span className="errmsg">*</span></label>
-                                        <input type="radio" name="gender" value="male" checked={gender === 'male'} onChange={handleGenderChange}/> Male
-                                        <input type="radio" name="gender" value="female" checked={gender === 'female'} onChange={handleGenderChange}/> Female
+                                        <input type="radio" name="gender" value={registrationdata.gender} checked={gender === 'male'} onChange={HandleRegistrationDataChange}/> Male
+                                        <input type="radio" name="gender" value={registrationdata.gender} checked={gender === 'female'} onChange={HandleRegistrationDataChange}/> Female
                                     </div>
                                 </div>
 
@@ -129,7 +158,7 @@ const RegistrationPage=()=>{
 
                         </div>
                         <div className="card-footer">
-                            <button type="submit" className="btn btn-sm btn-primary">Register</button>
+                            <button type="submit" className="btn btn-sm btn-primary" onClick={PostRegistrationData}>Register</button>
                             <Link className="btn btn-sm btn-danger" style={{marginLeft: 10}} to="/">Back</Link>
 
                             {/* <a className="btn btn-sm btn-danger" style={{marginLeft: 10}}>Back</a> */}
