@@ -36,24 +36,28 @@ const Login=()=>{
         //console.log(loginformdata);
         if(validate()){
    
-            fetch("http://localhost:3030/users").then(res=>{
+            fetch("http://localhost:8000/register").then(res=>{
+            //fetch("http://localhost:3030/users").then(res=>{
             //  const res=fetch("https://projectdata-1-viir.onrender.com/users").then(res=>{
                 return res.json();
-            }).then((response)=>{
-                response.map((user)=>{
-                    if(user.username===username){
-                        if(user.password === password){
-                        alert('Login Suceessfully');
-                        sessionStorage.setItem('username', username)
-                            navigate('/Home');
-                           // history.push('/Home');
-                        }
+            })
+            .then(response => {
+                console.log(response);
+                if (response.length > 0) {
+                    const user = response[0]; // Assuming the response contains an array of users
+                    if (user.username === username && user.password === password) {
+                        alert('Login Successfully');
+                        sessionStorage.setItem('username', username);
+                        navigate('/Home');
+                    } else {
+                        alert('Please enter valid credentials');
                     }
-                        else{
-                            alert('Please Enter valid Credentials');
-                        }
-                })
-            }).catch((err)=>{
+                } else {
+                    alert('No user found');
+                }
+        
+            })
+            .catch((err)=>{
                 alert('Login Failed due to:'+err.message);
             })
         }

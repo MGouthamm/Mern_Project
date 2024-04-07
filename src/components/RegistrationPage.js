@@ -60,33 +60,77 @@ const RegistrationPage=()=>{
     const PostRegistrationData = async (e)=>{
         e.preventDefault();
         const {username, password, fullname, email, phone, country,address}=registrationdata;
+        // try{
+        //         const response =  fetch("http://localhost:8000/register", {
+        //             method:"POST",
+        //             headers:{'Content-type':'application/json'},
+        //             body:JSON.stringify({username, password, fullname, email, phone, country,address})
+        //             //mode:"no-cors"
 
-       const res =  fetch("http://localhost:8000/register", {
+        //         });
+        //       //  console.log(response.json());
+
+        //         const data = response.json();
+                
+        //         console.log("Data:",data);
+        //         console.log("Data status:", data.status);
+
+
+        //         if(!data || data.status === '422' ){
+        //             window.alert("Invalid Registration");
+        //             console.log("Invalid Registration")
+        //         }
+        //         else{
+        //             window.alert("Registration Successfull.....");
+        //             console.log("Registraion Successfull...");
+        //             navigate('/');
+        //         }
+        //     }
+        // catch(error){
+        //     console.log(error.message);
+        // }
+
+      await  fetch("http://localhost:8000/register", {
             method:"POST",
             headers:{'Content-type':'application/json'},
             body:JSON.stringify({username, password, fullname, email, phone, country,address})
-        });
-       
-        const data = await res.json();
+         })
+         .then(response=>{
+            if(!response.ok){
+                if(!response || response.status === 422){
+                    window.alert("Invalid Registration, Username Already Exists ");
+                    console.log("Invalid Registration")
+                }else{
+                    throw new Error("Registraion Failed");
+                }
+                
+            }
+            else{
+                window.alert("Registration Successfull.....");
+                console.log("Registraion Successfull...");
+                navigate('/');
+            }
+            return response.json();
+         })
+        //  .then(res=>{
+        //         window.alert("Registration Successfull.....");
+        //         console.log("Registraion Successfull...");
+        //         navigate('/');
+        //  })
+         .catch((error)=>{
+            console.log(error.message);
+         })
         
-        console.log(data);
 
-        if(data.status===422 || !data){
-            window.alert("Invalid Registration");
-            console.log("Invalid Registration")
-        }
-        else{
-            window.alert("Registration Successfull.....");
-            console.log("Registraion Successfull...");
-            navigate('/');
-        }
+           
+        
     }
        
        
     return(
         <div>
             <div className="offset-lg-3 col-lg-6">
-                <form method="post" className="container" >
+                <form className="container" onSubmit={PostRegistrationData} >
                     <div className="card">
                         <div className="card-header">
                             <h4 style={{textAlign: "center"}}>User Registration</h4>
@@ -158,7 +202,7 @@ const RegistrationPage=()=>{
 
                         </div>
                         <div className="card-footer">
-                            <button type="submit" className="btn btn-sm btn-primary" onClick={PostRegistrationData}>Register</button>
+                            <button type="submit" className="btn btn-sm btn-primary" >Register</button>
                             <Link className="btn btn-sm btn-danger" style={{marginLeft: 10}} to="/">Back</Link>
 
                             {/* <a className="btn btn-sm btn-danger" style={{marginLeft: 10}}>Back</a> */}
