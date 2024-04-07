@@ -2,6 +2,7 @@ var express=require('express');
 var mongoose=require('mongoose');
 var bodyParser=require('body-parser');
 const employeeSchema=require('./model');
+const userSchema=require('./usermodel');
 
 
 //use the express
@@ -9,8 +10,8 @@ var app=express();
 const PORT=8000;
 
 //bodyparser to be used for sending and receiving data
-const URI = "mongodb://0.0.0.0:0/lmallareddy";
-
+//const URI = "mongodb://0.0.0.0:0/lmallareddy";
+const URI="mongodb://localhost:27017/employeeSchema";
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -71,6 +72,40 @@ app.post('/addemployee', async(req,res)=>{
         console.log(error.message);
     }
 })
+
+//writing registration page route to push the data
+
+app.post('/register', async(req, res)=>{
+    const {username, password, fullname, email, phone, country,address, gender}=req.body
+
+    if(!username || !password || !fullname || !email || !phone || !country || !address){
+        return res.status(422).json({error: "Please fill the fields properly!!!"});
+    }
+    try{
+        const userExist=await userSchema.findOne({username: username});
+        if(userExist){
+            return res.status(422).json({error: "Username Already Exists!!!"});
+        }
+        else{
+            const newuser = new userSchema({username, password, fullname, email, phone, country,address});
+            await newuser.save();
+            res.status(201).json({message:"User Registered Successfully..."});
+    
+            //every new users will move to the users object
+          //  const newusers=await userSchema.find();
+          //return res.json(newusers);
+
+        }
+       
+    }
+    catch(error){
+        console.log(error.message);
+    }
+})
+
+
+
+
 
 //implementing get request
 app.get('/getemployees', async(req,res)=>{
