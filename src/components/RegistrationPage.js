@@ -29,7 +29,7 @@ const RegistrationPage=()=>{
         const name=event.target.name;
         const value=event.target.value;
         setregistrationdata((prevstate)=>{
-            return{...prevstate, [name]:value}
+            return{...prevstate, [name]:value, gender}
         })
 
     }
@@ -59,7 +59,7 @@ const RegistrationPage=()=>{
     
     const PostRegistrationData = async (e)=>{
         e.preventDefault();
-        const {username, password, fullname, email, phone, country,address}=registrationdata;
+        const {username, password, fullname, email, phone, country,address, gender}=registrationdata;
         // try{
         //         const response =  fetch("http://localhost:8000/register", {
         //             method:"POST",
@@ -90,36 +90,58 @@ const RegistrationPage=()=>{
         //     console.log(error.message);
         // }
 
-      await  fetch("http://localhost:8000/register", {
-            method:"POST",
-            headers:{'Content-type':'application/json'},
-            body:JSON.stringify({username, password, fullname, email, phone, country,address})
-         })
-         .then(response=>{
-            if(!response.ok){
-                if(!response || response.status === 422){
+        try{
+
+            const response = await  fetch("http://localhost:8000/register", {
+                method:"POST",
+                headers:{'Content-type':'application/json'},
+                body:JSON.stringify({username, password, fullname, email, phone, country,address, gender})
+             });
+             if (!response.ok) {
+                if (!response || response.status === 422) {
                     window.alert("Invalid Registration, Username Already Exists ");
                     console.log("Invalid Registration")
-                }else{
-                    throw new Error("Registraion Failed");
+                } else {
+                    throw new Error("Registration Failed");
                 }
-                
-            }
-            else{
-                window.alert("Registration Successfull.....");
-                console.log("Registraion Successfull...");
+            } else {
+                window.alert("Registration Successful.....");
+                console.log("Registration Successful...");
                 navigate('/');
             }
-            return response.json();
-         })
-        //  .then(res=>{
-        //         window.alert("Registration Successfull.....");
-        //         console.log("Registraion Successfull...");
-        //         navigate('/');
-        //  })
-         .catch((error)=>{
-            console.log(error.message);
-         })
+        
+            const data = await response.json();
+            console.log(data);
+        }
+        catch (error) {
+            console.error(error.message);
+        }
+
+        
+    //   await  fetch("http://localhost:8000/register", {
+    //         method:"POST",
+    //         headers:{'Content-type':'application/json'},
+    //         body:JSON.stringify({username, password, fullname, email, phone, country,address, gender})
+    //      })
+    //      .then(response=>{
+    //         if(!response.ok){
+    //             if(!response || response.status === 422){
+    //                 window.alert("Invalid Registration, Username Already Exists ");
+    //                 console.log("Invalid Registration")
+    //             }else{
+    //                 throw new Error("Registraion Failed");
+    //             }  
+    //         }
+    //         else{
+    //             window.alert("Registration Successfull.....");
+    //             console.log("Registraion Successfull...");
+    //             navigate('/');
+    //         }
+    //         return response.json();
+    //      })
+    //      .catch((error)=>{
+    //         console.log(error.message);
+    //      })
         
 
            
@@ -189,8 +211,8 @@ const RegistrationPage=()=>{
                                 <div className="col-auto">
                                     <div className="form-group" >
                                         <label>Gender <span className="errmsg">*</span></label>
-                                        <input type="radio" name="gender" value={registrationdata.gender} checked={gender === 'male'} onChange={HandleRegistrationDataChange}/> Male
-                                        <input type="radio" name="gender" value={registrationdata.gender} checked={gender === 'female'} onChange={HandleRegistrationDataChange}/> Female
+                                        <input type="radio" name="gender" value="gender" checked={gender === 'male'} onChange={handleGenderChange}/> Male
+                                        <input type="radio" name="gender" value="gender" checked={gender === 'female'} onChange={handleGenderChange}/> Female
                                     </div>
                                 </div>
 

@@ -31,35 +31,69 @@ const Login=()=>{
     
 
     //Handler for Proceed Login
-    const ProceedLogin=(event)=>{
+    const ProceedLogin= async (event)=>{
         event.preventDefault();
         //console.log(loginformdata);
         if(validate()){
    
-            fetch("http://localhost:8000/register").then(res=>{
-            //fetch("http://localhost:3030/users").then(res=>{
-            //  const res=fetch("https://projectdata-1-viir.onrender.com/users").then(res=>{
-                return res.json();
-            })
-            .then(response => {
-                console.log(response);
-                if (response.length > 0) {
-                    const user = response[0]; // Assuming the response contains an array of users
-                    if (user.username === username && user.password === password) {
-                        alert('Login Successfully');
-                        sessionStorage.setItem('username', username);
-                        navigate('/Home');
+            // fetch("http://localhost:8000/register").then(res=>{
+            // //fetch("http://localhost:3030/users").then(res=>{
+            // //  const res=fetch("https://projectdata-1-viir.onrender.com/users").then(res=>{
+            //     return res.json();
+            // })
+            // .then(response => {
+            //     console.log(response);
+            //     if (response.length > 0) {
+            //         const user = response[0]; // Assuming the response contains an array of users
+            //         if (user.username === username && user.password === password) {
+            //             alert('Login Successfully');
+            //             sessionStorage.setItem('username', username);
+            //             navigate('/Home');
+            //         } else {
+            //             alert('Please enter valid credentials');
+            //         }
+            //     } else {
+            //         alert('No user found');
+            //     }
+        
+            // })
+            // .catch((err)=>{
+            //     alert('Login Failed due to:'+err.message);
+            // })
+
+
+            try{
+
+                const response = await  fetch("http://localhost:8000/login", {
+                    method:"POST",
+                    headers:{'Content-type':'application/json'},
+                    body:JSON.stringify({username, password})
+                 });
+                 if (!response.ok) {
+                    if (!response || response.status === 422) {
+                        window.alert("Invalid Login, Username Already Exists ");
+                        console.log("Invalid Login...")
                     } else {
-                        alert('Please enter valid credentials');
+                        throw new Error("Login Failed");
                     }
                 } else {
-                    alert('No user found');
+                    window.alert("Login Successful.....");
+                    console.log("Login Successful...");
+                    navigate('/Home');
                 }
-        
-            })
-            .catch((err)=>{
-                alert('Login Failed due to:'+err.message);
-            })
+            
+                const data = await response.json();
+                console.log(data);
+            }
+            catch (error) {
+                console.error(error.message);
+            }
+    
+            
+
+
+
+
         }
     }
 
