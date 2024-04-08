@@ -12,8 +12,8 @@ const PORT=8000;
 
 
 //bodyparser to be used for sending and receiving data
-//const URI = "mongodb://0.0.0.0:0/lmallareddy";
-const URI="mongodb://localhost:27017/employeeSchema";
+const URI = "mongodb://0.0.0.0:0/employeeSchema";
+//const URI="mongodb://localhost:27017/employeeSchema";
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -86,9 +86,9 @@ app.post('/addemployee', async(req,res)=>{
 //writing registration page route to push the data
 
 app.post('/register', async(req, res)=>{
-    const {username, password, fullname, email, phone, country,address}=req.body
+    const {username, password, fullname, email, phone, country,address, gender}=req.body
 
-    if(!username || !password || !fullname || !email || !phone || !country || !address){
+    if(!username || !password || !fullname || !email || !phone || !country || !address, !gender){
         return res.status(422).json({error: "Please fill the fields properly!!!"});
     }
     try{
@@ -115,19 +115,27 @@ app.post('/register', async(req, res)=>{
 })
 
 //writing registration page route to get the data
-app.get('/register', async(req, res)=>{
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
 
-    try{
-        const userExist = await userSchema.findOne({username:username})
-        if(userExist){
-            return res.json(users);
+    try {
+        const user = await userSchema.findOne({ username: username });
+
+        if (user) {
+            if (user.password === password) {
+                res.json("Login Successful...");
+            } else {
+                res.json("Password is incorrect...");
+            }
+        } else {
+            res.json("No record exists for this username...");
         }
-        
+    } catch (error) {
+        console.error("Error:", error.message);
+        res.status(500).json("An error occurred while processing your request...");
     }
-    catch(error){
-        console.log(error.message);
-    }
-})
+});
+
 
 
 //implementing get request
