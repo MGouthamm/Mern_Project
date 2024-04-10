@@ -3,6 +3,7 @@ var mongoose=require('mongoose');
 var bodyParser=require('body-parser');
 const employeeSchema=require('./model');
 const userSchema=require('./usermodel');
+const React = require('react');
 
 
 //use the express
@@ -12,8 +13,8 @@ const PORT=8000;
 
 
 //bodyparser to be used for sending and receiving data
-const URI = "mongodb://0.0.0.0:0/employeeSchema";
-//const URI="mongodb://localhost:27017/employeeSchema";
+//const URI = "mongodb://0.0.0.0:0/employeeSchema";
+const URI="mongodb://localhost:27017/employeeSchema";
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -123,7 +124,7 @@ app.post('/login', async (req, res) => {
 
         if (user) {
             if (user.password === password) {
-                res.json("Login Successful...");
+                res.json("Success");
             } else {
                 res.json("Password is incorrect...");
             }
@@ -135,6 +136,9 @@ app.post('/login', async (req, res) => {
         res.status(500).json("An error occurred while processing your request...");
     }
 });
+
+//writing homepage route to display data
+
 
 
 
