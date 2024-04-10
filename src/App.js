@@ -37,8 +37,8 @@ function App() {
       <BrowserRouter>
           <Routes>
             <Route  path='/' element={<Login/>}/>
-            {/* <Route path='/LoginPage' element={<Login/>}/> */}
-            <Route exact path='/Home' element={<HomePageComponent/>}/>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/home' element={<HomePageComponent/>}/>
            {/* <ProtectedRoute path='/Home'><HomePageComponent/></ProtectedRoute> */}
             <Route path='/StudentPage' element={<StudentPage/>}/>
             <Route path='/NewStudentPage' element={<AddStudentComponent/>}/>

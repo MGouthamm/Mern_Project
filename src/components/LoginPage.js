@@ -3,32 +3,30 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 
-
-function ProtectedRoute(){
-    const navigate=useNavigate();
-    const jwt=localStorage.getItem('jwt');
-    if(!jwt){
-        return navigate('/');
-    }
-    else {
-        return navigate('/Home');
-    }
-}
+// function ProtectedRoute(){
+//     const navigate=useNavigate();
+//     const jwt=localStorage.getItem('jwt');
+//     if(!jwt){
+//         return navigate('/');
+//     }
+//     else {
+//         return navigate('/Home');
+//     }
+// }
 
 
 const Login=()=>{
  
     const [username, updateusername]=useState('');
     const [password, updatepassword]=useState('');
+    const [authenticated, setauthenticated] = useState(false);
+
 
     //for Navigation purpose
 
     const navigate=useNavigate();
 
-      useEffect(()=>{
-
-        },[])
-    
+          
 
     //Handler for Proceed Login
     const ProceedLogin= async (event)=>{
@@ -62,39 +60,40 @@ const Login=()=>{
             // })
 
 
-            try{
-
-                const response = await  fetch("http://localhost:8000/login", {
-                    method:"POST",
-                    headers:{'Content-type':'application/json'},
-                    body:JSON.stringify({username, password})
-                 });
-                 if (!response.ok) {
-                    if (!response || response.status === 422) {
-                        window.alert("Invalid Login, Username Already Exists ");
-                        console.log("Invalid Login...")
+            try {
+                const response = await fetch("http://localhost:8000/login", {
+                    method: "POST",
+                    headers: { 'Content-type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+            
+                if (!response.ok) {
+                    if (response.status === 422) {
+                        window.alert("Invalid Login, Username Already Exists");
+                        console.log("Invalid Login, Username Already Exists...");
                     } else {
-                        throw new Error("Login Failed");
+                        window.alert("Login Failed");
+                        console.log("Login Failed...");
                     }
                 } else {
-                    window.alert("Login Successful.....");
-                    console.log("Login Successful...");
-                    navigate('/Home');
+                    const data = await response.json(); 
+                    if (data === 'Success') {
+                        setauthenticated(true); // set authentication state
+                        localStorage.setItem("authenticated", true);  // set session management
+                        console.log("Authenticated Value:", true);
+                       navigate('/home');
+                        console.log("Welcome to Home Page...");
+                    } else {
+                        window.alert("Login Failed: " + data); // You can display the error message from the server
+                        console.log("Login Failed: " + data);
+                    }
                 }
-            
-                const data = await response.json();
-                console.log(data);
+            } catch (error) {
+                console.error("Error:", error.message);
             }
-            catch (error) {
-                console.error(error.message);
-            }
-    
+                
             
-
-
-
-
-        }
+       }
     }
 
     const validate=()=>{
@@ -109,6 +108,12 @@ const Login=()=>{
         }
         return result;
     }
+
+
+    useEffect(()=>{
+    },[])
+
+
 
     return(
         <div className="row">

@@ -15,6 +15,8 @@ const HomePageComponent=()=>{
         password:''
     });
 
+    const [authenticated, setauthenticated] =  useState(null);
+
     const HandleUserFormData=()=>{
         fetch("http://localhost:3030/users" ).then(res=>{
 
@@ -35,18 +37,28 @@ const HomePageComponent=()=>{
 
     function handleLogout() {
         // Clear sessionStorage
-        sessionStorage.clear();
+    //    sessionStorage.clear();
+        localStorage.clear();
         // Redirect to the login page or any other appropriate action
         window.location.href = '/'; // Redirect to the login page
       }
       
 
     useEffect(()=>{
-        HandleUserFormData();
+       // HandleUserFormData();
+       const loggedInuser= localStorage.getItem("authenticated");
+       if(loggedInuser){
+        setauthenticated(loggedInuser);
+       }
         
     },[])
 
 
+    if(!authenticated){
+       window.location.href = '/'; // Redirect to the login page
+        //navigate('/');
+    }
+    else{
     return(
 
         <div className="container-fluid">
@@ -117,32 +129,7 @@ const HomePageComponent=()=>{
             
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
     );
+    }
  }
  export default HomePageComponent;
