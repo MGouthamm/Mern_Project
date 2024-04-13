@@ -138,15 +138,15 @@ app.post('/login', async (req, res) => {
 });
 
 //writing homepage route to display data
-app.get('/login', async(req, res)=>{
-    try{
+app.get('/login', async (req, res) => {
+    try {
         const user = await userSchema.find();
         return res.json(user);
-    }
-    catch(error){
+    } catch (error) {
         console.log(error.message);
+        return res.status(500).json({ error: 'Internal server error' });
     }
-})
+});
 
 
 

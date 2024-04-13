@@ -15,6 +15,7 @@ import CreateEmployee from './components/CreateEmployeePage';
 import EditEmployee from './components/EditEmployeePage';
 import GenderSelection from './components/Gender';
 import Login from './components/LoginPage';
+import HomeComponent from './components/HomePage';
 
 
 
@@ -38,7 +39,9 @@ function App() {
           <Routes>
             <Route  path='/' element={<Login/>}/>
             <Route path='/login' element={<Login/>}/>
-            <Route path='/home' element={<HomePageComponent/>}/>
+            {/* <Route path='/home' element={<HomePageComponent/>}/> */}
+            <Route path='/home' element={<HomeComponent/>}/>
+
            {/* <ProtectedRoute path='/Home'><HomePageComponent/></ProtectedRoute> */}
             <Route path='/StudentPage' element={<StudentPage/>}/>
             <Route path='/NewStudentPage' element={<AddStudentComponent/>}/>

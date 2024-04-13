@@ -66,7 +66,7 @@ const Login=()=>{
                     headers: { 'Content-type': 'application/json' },
                     body: JSON.stringify({ username, password })
                 });
-            
+                console.log(response);
                 if (!response.ok) {
                     if (response.status === 422) {
                         window.alert("Invalid Login, Username Already Exists");

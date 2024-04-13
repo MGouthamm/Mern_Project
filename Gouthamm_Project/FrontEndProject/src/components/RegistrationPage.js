@@ -107,6 +107,7 @@ const RegistrationPage=()=>{
             } else {
                 window.alert("Registration Successful.....");
                 console.log("Registration Successful...");
+                console.log(response);
                 navigate('/');
             }
         
