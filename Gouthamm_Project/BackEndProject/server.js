@@ -138,7 +138,7 @@ app.post('/login', async (req, res) => {
 });
 
 //writing homepage route to display data
-app.get('/login', async (req, res) => {
+app.get('/user', async (req, res) => {
     try {
         const user = await userSchema.find();
         return res.json(user);

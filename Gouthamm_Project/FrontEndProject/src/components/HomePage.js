@@ -10,11 +10,10 @@ const HomeComponent=()=>{
 
     const navigate = useNavigate();
 
+    //const {username}=useParams();
 
     const HandleUserData = async ()=>{
-        const response = await fetch(`http://localhost:8000/login`, {
-            method: "GET"
-        });
+        const response = await fetch(`http://localhost:8000/user`);
         console.log(response);
         if(!response.ok){
             if (response.status === 422) {
