@@ -4,12 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 const CreateEmployee=()=>{
 
     const [createemployeedata, setcreateemployeedata] = useState({
-        id:'',
-        name:'',
-        email:'',
-        phone:'',
-        role:''
-        // active:'true'
+        empid:'',
+        empname:'',
+        empemail:'',
+        empphone:'',
+        emprole:'',
+        empactive:'true'
     });
 
     const navigate=useNavigate();
@@ -37,24 +37,55 @@ const CreateEmployee=()=>{
 
     }
 
-    const HandleProceedCreateEmployee=(event)=>{
+    const HandleProceedCreateEmployee=async (event)=>{
         event.preventDefault();
+        const {empid, empname, empemail, empphone, emprole, empactive}=createemployeedata;
         //console.log(createemployeedata);
 
+        // fetch("http://localhost:8000/addemployee", {
+        // //fetch('http://localhost:3030/employees',{
+        // //fetch('https://projectdata-1-viir.onrender.com/employees',{
+        //     method:'POST',
+        //     headers:{'Content-type':'application/json'},
+        //     body:JSON.stringify({empid, empname, empemail, empphone, emprole, empactive})
+        // }).then((res)=>{
+        //     alert('Employee Created Successfully...');
+        //     navigate('/EmployeeDetails');
 
-        fetch('http://localhost:3030/employees',{
-        //fetch('https://projectdata-1-viir.onrender.com/employees',{
-            method:'POST',
-            headers:{'Content-type':'application/json'},
-            body:JSON.stringify(createemployeedata)
-        }).then((res)=>{
-            alert('Employee Created Successfully...');
-            navigate('/EmployeeDetails');
+
+        // }).catch((err)=>{
+        //     alert('Failed :'+err.message)
+        // })
+
+        try{
+
+            const response = await  fetch("http://localhost:8000/addemployee", {
+                method:"POST",
+                headers:{'Content-type':'application/json'},
+                body:JSON.stringify({empid, empname, empemail, empphone, emprole, empactive})
+             });
+             if (!response.ok) {
+                if (!response || response.status === 422) {
+                    window.alert("Invalid Registration, Employee Already Exists ");
+                    console.log("Invalid Registration, Employee Already Exists..")
+                } else {
+                    throw new Error("Registration Failed");
+                }
+            } else {
+                window.alert("Registration Successful.....");
+                console.log("Registration Successful...");
+                console.log(response);
+                navigate('/EmployeeDetails');
+            }
+        
+            const data = await response.json();
+            console.log(data);
+        }
+        catch (error) {
+            console.error(error.message);
+        }
 
 
-        }).catch((err)=>{
-            alert('Failed :'+err.message)
-        })
 
     }
     
@@ -76,41 +107,41 @@ const CreateEmployee=()=>{
                                     <div className="col-lg-12">
                                         <div className="form-group">
                                             <label>ID <span className="errmsg">*</span></label>
-                                            <input className="form-control" name="id" value={createemployeedata.id} onChange={HandleCreateEmployeeDataChange} />
+                                            <input className="form-control" name="empid" value={createemployeedata.empid} onChange={HandleCreateEmployeeDataChange} />
                                         </div>
-                                        {createemployeedata.id.length==0 && <span className="errmsg">Enter ID</span>}
+                                        {/* {createemployeedata.id.length==0 && <span className="errmsg">Enter ID</span>} */}
                                     </div>
                                      <div className="col-lg-12">
                                             <div className="form-group">
                                                 <label>Name <span className="errmsg">*</span></label>
-                                                <input className="form-control" name="name" value={createemployeedata.name} onChange={HandleCreateEmployeeDataChange} />
+                                                <input className="form-control" name="empname" value={createemployeedata.empname} onChange={HandleCreateEmployeeDataChange} />
                                             </div>
-                                            {createemployeedata.name.length==0 && <span className="errmsg">Enter Name</span>}
+                                            {/* {createemployeedata.name.length==0 && <span className="errmsg">Enter Name</span>} */}
                                      </div>
                                      <div className="col-lg-12">
                                             <div className="form-group">
                                                 <label>Email <span className="errmsg">*</span></label>
-                                                <input className="form-control"name="email" value={createemployeedata.email} onChange={HandleCreateEmployeeDataChange}  />
+                                                <input className="form-control"name="empemail" value={createemployeedata.empemail} onChange={HandleCreateEmployeeDataChange}  />
                                             </div>
-                                            {createemployeedata.email.length==0 && <span className="errmsg">Enter email</span>}
+                                            {/* {createemployeedata.email.length==0 && <span className="errmsg">Enter email</span>} */}
                                      </div>
                                      <div className="col-lg-12">
                                             <div className="form-group">
                                                 <label>Phone <span className="errmsg">*</span></label>
-                                                <input className="form-control" name="phone" value={createemployeedata.phone} onChange={HandleCreateEmployeeDataChange}  />
+                                                <input className="form-control" name="empphone" value={createemployeedata.empphone} onChange={HandleCreateEmployeeDataChange}  />
                                             </div>
-                                            {createemployeedata.phone.length==0 && <span className="errmsg">Enter Phone Number</span>}
+                                            {/* {createemployeedata.phone.length==0 && <span className="errmsg">Enter Phone Number</span>} */}
                                     </div>
                                     <div className="col-lg-12">
                                             <div className="form-group">
                                                 <label>Role <span className="errmsg">*</span></label>
-                                                <input className="form-control" name="role" value={createemployeedata.role} onChange={HandleCreateEmployeeDataChange}  />
+                                                <input className="form-control" name="emprole" value={createemployeedata.emprole} onChange={HandleCreateEmployeeDataChange}  />
                                             </div>
-                                            {createemployeedata.role.length==0 && <span className="errmsg">Enter Role</span>}
+                                            {/* {createemployeedata.role.length==0 && <span className="errmsg">Enter Role</span>} */}
                                     </div>
                                     <div className="col-lg-12">
                                             <div className="form-check">
-                                                <input type="checkbox" className="form-check-input" name="active"  onChange={HandleActive} />
+                                                <input type="checkbox" className="form-check-input" name="empactive" checked={createemployeedata.empactive === 'true'} onChange={HandleCreateEmployeeDataChange} />
                                                 <label className="form-check-label">Is Active</label>
                                             </div>
                                             

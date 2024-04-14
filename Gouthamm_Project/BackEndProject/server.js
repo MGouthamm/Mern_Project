@@ -2,7 +2,8 @@ var express=require('express');
 var mongoose=require('mongoose');
 var bodyParser=require('body-parser');
 const employeeSchema=require('./model');
-const userSchema=require('./usermodel');
+//const userSchema=require('./usermodel');
+const {users, employees} = require('./usermodel');
 const React = require('react');
 
 
@@ -93,13 +94,13 @@ app.post('/register', async(req, res)=>{
         return res.status(422).json({error: "Please fill the fields properly!!!"});
     }
     try{
-        const userExist=await userSchema.findOne({username: username});
+        const userExist=await users.findOne({username: username});
         if(userExist){
             return res.status(422).json({error: "Username Already Exists!!!"});
             
         }
         else{
-            const newuser = new userSchema({username, password, fullname, email, phone, country,address});
+            const newuser = new users({username, password, fullname, email, phone, country,address});
             await newuser.save();
             res.status(201).json({message:"User Registered Successfully..."});
     
@@ -120,7 +121,7 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        const user = await userSchema.findOne({ username: username });
+        const user = await users.findOne({ username: username });
 
         if (user) {
             if (user.password === password) {
@@ -140,7 +141,7 @@ app.post('/login', async (req, res) => {
 //writing homepage route to display data
 app.get('/user', async (req, res) => {
     try {
-        const user = await userSchema.find();
+        const user = await users.find();
         return res.json(user);
     } catch (error) {
         console.log(error.message);
@@ -148,16 +149,54 @@ app.get('/user', async (req, res) => {
     }
 });
 
+//implementing post route to push new employee data
+
+app.post('/addemployee', async (req, res) => {
+    const { empid, empname, empemail, empphone, emprole, empactive } = req.body;
+
+    if (!empid || !empname || !empemail || !empphone || !emprole || empactive === undefined) {
+        return res.status(422).json({ error: "Please fill all the fields properly!!!" });
+    }
+
+    try {
+        // Check if employee with the given empid already exists
+        const existingEmployee = await employees.find({ empid: empid });
+
+        if (existingEmployee.length > 0) {
+            return res.status(422).json({ error: "Employee with the same ID already exists!!!" });
+        } else {
+            // Create a new employee document
+            const newEmployee = new employees({
+                empid,
+                empname,
+                empemail,
+                empphone,
+                emprole,
+                empactive
+            });
+
+            // Save the new employee document to the database
+            await newEmployee.save();
+
+            // Send success response
+            return res.status(201).json({ message: "Employee registered successfully." });
+        }
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ error: "Internal server error." });
+    }
+});
 
 
-//implementing get request
+//implementing get route to get employees data
 app.get('/getemployees', async(req,res)=>{
     try{
-        const allemployees = await employeeSchema.find();
+        const allemployees = await employees.find();
         return res.json(allemployees)
     }
     catch(error){
         console.log(error.message);
+        return res.status(500).json({ error: 'Internal server error' });
     }
 })
 

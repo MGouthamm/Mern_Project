@@ -1,5 +1,7 @@
 var mongoose=require('mongoose');
 
+// Define Schemas
+
 const userSchema=mongoose.Schema({
 
         username:String,
@@ -10,4 +12,19 @@ const userSchema=mongoose.Schema({
         country:String,
         address:String,
 })
-module.exports=mongoose.model("users", userSchema)
+
+const employeeSchema=mongoose.Schema({
+        empid: { type: String, required: true, unique: true }, // Define empid field
+        empname:String,
+        empemail:String,
+        empphone:String,
+        emprole:String,
+        empactive:Boolean
+})
+
+
+
+// create models based on schemas
+const users = mongoose.model("users", userSchema)
+const employees = mongoose.model("employees", employeeSchema)
+module.exports= {users, employees };

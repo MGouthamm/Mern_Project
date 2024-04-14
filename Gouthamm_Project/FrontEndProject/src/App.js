@@ -47,9 +47,9 @@ function App() {
             <Route path='/NewStudentPage' element={<AddStudentComponent/>}/>
             <Route path='/register' element={<RegistrationPage/>}/>
             <Route path='/EmployeeDetails' element={<EmployeeDetails/>}/>
-            <Route path='/employees/create' element={<CreateEmployee/>}/>
-            <Route path='/employees/edit/:id' element={<EditEmployee/>}/>
-            <Route path='/employees/details/:id' element={<DetailsEmployee/>}/>
+            <Route path='/createemployee' element={<CreateEmployee/>}/>
+            <Route path='/employee/edit/:id' element={<EditEmployee/>}/>
+            <Route path='/employee/details/:id' element={<DetailsEmployee/>}/>
 
 
             

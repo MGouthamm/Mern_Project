@@ -53,14 +53,16 @@ const EmployeeDetails=()=>{
 
 
     const HandleFetchEmployees = async()=>{
-        const response= await fetch("http://localhost:3030/employees")
+        const response= await fetch("http://localhost:8000/getemployees")
+        //const response= await fetch("http://localhost:3030/employees")
         //const response= await fetch("https://projectdata-1-viir.onrender.com/employees")
         const data= await response.json();    
+        console.log(data);
         setemployeedata(data);     
     }
 
     useEffect(()=>{
-        HandleFetchEmployees();
+       HandleFetchEmployees();
     },[])
 
     console.log(employeedata)
@@ -75,7 +77,7 @@ const EmployeeDetails=()=>{
                 </div>
                 <div className="card-body">
                     <div>
-                        <Link to="/employees/create" className="btn btn-sm btn-success">New (+) </Link>
+                        <Link to="/createemployee" className="btn btn-sm btn-success">New (+) </Link>
                     </div>
                     <table className="table table-stripped table-bordered" style={{marginTop: 10}}>
                         <thead className="thead-dark text-white" style={{textAlign: "center"}}>
@@ -92,17 +94,17 @@ const EmployeeDetails=()=>{
                                 { employeedata.map((emp,index)=>(
                                         <tr>
                                             <td>{index+1}</td>
-                                            <td>{emp.id}</td>
-                                            <td>{emp.name}</td>
-                                            <td>{emp.email}</td>
-                                            <td>{emp.phone}</td>
-                                            <td>{emp.role}</td>
-                                            <td>{emp.active}</td>
+                                            <td>{emp.empid}</td>
+                                            <td>{emp.empname}</td>
+                                            <td>{emp.empemail}</td>
+                                            <td>{emp.empphone}</td>
+                                            <td>{emp.emprole}</td>
+                                            <td>{emp.empactive}</td>
                                             {/* { emp.role === 'Admin' && */}
                                             <td style={{textAlign: "center"}}>
-                                                <a className="text-primary" onClick={()=>{HandlerLoadEmpDetails(emp.id)}} style={{marginLeft: 10}} >Details</a>
-                                                <a className="text-success" onClick={()=>{HandlerEditEmp(emp.id)}} style={{marginLeft: 10}}>Edit</a>
-                                                <a className="text-danger" onClick={()=>{HandlerDeleteEmp(emp.id)}} style={{marginLeft: 10}} >Remove</a>
+                                                <a className="text-primary" onClick={()=>{HandlerLoadEmpDetails(emp.empid)}} style={{marginLeft: 10}} >Details</a>
+                                                <a className="text-success" onClick={()=>{HandlerEditEmp(emp.empid)}} style={{marginLeft: 10}}>Edit</a>
+                                                <a className="text-danger" onClick={()=>{HandlerDeleteEmp(emp.empid)}} style={{marginLeft: 10}} >Remove</a>
                                             </td>
                                             {/* } */}
                                            </tr>
