@@ -70,20 +70,20 @@ app.get('/contact',(req,res)=>{
 
 //writng addemployee route to push the data
 
-app.post('/addemployee', async(req,res)=>{
-   const {empId, empname, empemail, empphone, emprole, empactive}=req.body;
-    try{
-        const newemployee= new employeeSchema({empId, empname, empemail, empphone, emprole, empactive});
-        await newemployee.save();
+// app.post('/addemp', async(req,res)=>{
+//    const {empId, empname, empemail, empphone, emprole, empactive}=req.body;
+//     try{
+//         const newemployee= new employeeSchema({empId, empname, empemail, empphone, emprole, empactive});
+//         await newemployee.save();
 
-        //every new employee will move to the allemployee object
-        const allemployees=await employeeSchema.find();
-        return res.json(allemployees);
-    }
-    catch(error){
-        console.log(error.message);
-    }
-})
+//         //every new employee will move to the allemployee object
+//         const allemployees=await employeeSchema.find();
+//         return res.json(allemployees);
+//     }
+//     catch(error){
+//         console.log(error.message);
+//     }
+// })
 
 //writing registration page route to push the data
 
