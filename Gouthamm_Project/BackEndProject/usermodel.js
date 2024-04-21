@@ -26,5 +26,8 @@ const employeeSchema=mongoose.Schema({
 
 // create models based on schemas
 const users = mongoose.model("users", userSchema)
+
+const Group7 = mongoose.model("Group7", userSchema)
+const Group8 = mongoose.model("Group8", userSchema)
 const employees = mongoose.model("employees", employeeSchema)
-module.exports= {users, employees };
+module.exports= {users, employees, Group7, Group8 };

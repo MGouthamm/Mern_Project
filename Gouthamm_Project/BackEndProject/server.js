@@ -1,9 +1,9 @@
 var express=require('express');
 var mongoose=require('mongoose');
+const cors=require('cors')
 var bodyParser=require('body-parser');
 const employeeSchema=require('./model');
-//const userSchema=require('./usermodel');
-const {users, employees} = require('./usermodel');
+const {users, employees, Group7, Group8} = require('./usermodel');
 const React = require('react');
 
 
@@ -13,25 +13,37 @@ const PORT=8000;
 
 
 
-//bodyparser to be used for sending and receiving data
 //const URI = "mongodb://0.0.0.0:0/employeeSchema";
-const URI="mongodb://localhost:27017/employeeSchema";
+//const URI="mongodb://localhost:27017/employeeSchema";
+
+//Mongo Atlas connection String
+const URI="mongodb+srv://mgoutham:gouthamm123@cluster0.pt8suoz.mongodb.net/";
+
+//bodyparser to be used for sending and receiving data
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-});
 
+//Cross-Origin Resource Sharing (CORS): A mechanism that allows servers to specify which origins
+//are allowed to access their resources and under what conditions. 
+
+// This allows all origins - be cautious with this in production environments
+
+// Example allowing specific origin
+app.use(cors({
+    // Allow requests from multiple origins, including your GitHub Pages site
+    origin: [
+        'http://localhost:3000',  // Your development origin
+        'https://mgouthamm.github.io/MERN-STACK/',  // Your GitHub Pages site
+    ],
+    optionsSuccessStatus: 200,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Methods you want to allow
+    allowedHeaders: ['Content-Type', 'Authorization'], // Headers to allow
+    credentials: true // If you want to allow cookies/credentials
+  }));
 
 //Database connection Establishment
-
-//const DBUrl="mongodb://localhost:27017/employeeSchema";
-//mongoose.connect("mongodb://localhost:27017/employeeSchema", {useNewUrlParser:true, useUnifiedTopology:true})
 mongoose.connect(URI)
 .then(()=>{
     console.log("Database connected Successfully....");
@@ -63,30 +75,7 @@ app.get('/contact',(req,res)=>{
 })
 
 
-
-
-
-//implementing the routes
-
-//writng addemployee route to push the data
-
-// app.post('/addemp', async(req,res)=>{
-//    const {empId, empname, empemail, empphone, emprole, empactive}=req.body;
-//     try{
-//         const newemployee= new employeeSchema({empId, empname, empemail, empphone, emprole, empactive});
-//         await newemployee.save();
-
-//         //every new employee will move to the allemployee object
-//         const allemployees=await employeeSchema.find();
-//         return res.json(allemployees);
-//     }
-//     catch(error){
-//         console.log(error.message);
-//     }
-// })
-
 //writing registration page route to push the data
-
 app.post('/register', async(req, res)=>{
     const {username, password, fullname, email, phone, country,address, gender}=req.body
 
@@ -95,21 +84,16 @@ app.post('/register', async(req, res)=>{
     }
     try{
         const userExist=await users.findOne({username: username});
+        console.log("Creating New user with username: ", username)
         if(userExist){
-            return res.status(422).json({error: "Username Already Exists!!!"});
-            
+            return res.status(422).json({error: "Username Already Exists!!!"});          
         }
         else{
             const newuser = new users({username, password, fullname, email, phone, country,address});
             await newuser.save();
+            console.log("New User Registered Successfully...")
             res.status(201).json({message:"User Registered Successfully..."});
-    
-            //every new users will move to the users object
-         //   const newusers=await userSchema.find();
-           // return res.json(newusers);
-
-        }
-       
+        }      
     }
     catch(error){
         console.log(error.message);
@@ -122,10 +106,11 @@ app.post('/login', async (req, res) => {
 
     try {
         const user = await users.findOne({ username: username });
-
+        console.log("Trying to Login with username:", user);
         if (user) {
             if (user.password === password) {
                 res.json("Success");
+                console.log("User Logined Successfully....")
             } else {
                 res.json("Password is incorrect...");
             }
@@ -161,23 +146,17 @@ app.post('/addemployee', async (req, res) => {
     try {
         // Check if employee with the given empid already exists
         const existingEmployee = await employees.find({ empid: empid });
+        console.log("Checking for Employee with Empid:", empid);
 
         if (existingEmployee.length > 0) {
             return res.status(422).json({ error: "Employee with the same ID already exists!!!" });
         } else {
             // Create a new employee document
-            const newEmployee = new employees({
-                empid,
-                empname,
-                empemail,
-                empphone,
-                emprole,
-                empactive
-            });
+            const newEmployee = new employees({ empid, empname, empemail, empphone, emprole, empactive });
 
             // Save the new employee document to the database
             await newEmployee.save();
-
+            console.log("New Employee Registered Successfully...")
             // Send success response
             return res.status(201).json({ message: "Employee registered successfully." });
         }
@@ -201,29 +180,86 @@ app.get('/getemployees', async(req,res)=>{
 })
 
 
-//specific id based search
+//specific id based search to get specific employee data
+app.get('/getemployee/:empid', async (req, res) => {
+    const employeeEmpid = req.params.empid;
+    console.log("Get employee with empid:", employeeEmpid);
 
-app.get('/getemployees/:id', async(req, res)=>{
-    try{
-        const data=await employeeSchema.findById(req.params.id);
-        return res.json(data);
-    }
-    catch(error){
+    try {
+        const employeedata = await employees.findOne({empid:employeeEmpid});
+        return res.json(employeedata);
+    } catch (error) {
         console.log(error.message);
+        return res.status(500).json({ error: 'Internal server error' });
     }
-})
+});
 
-//delete record from table
+// Update Employee Details based on specific ID
+app.put('/updateemployee/:empid', async (req, res) => {
+    const employeeEmpid = req.params.empid;
 
-app.delete('/deleteemployee/:id', async(req,res)=>{
-    try{
-        await employeeSchema.findByIdAndDelete(req.params.id);
-        return res.json({message: 'Employee Recode Deleted Successfully...'})
+    try {
+        // Find the employee by empid
+        let employee = await employees.findOne({ empid: employeeEmpid });
+
+        if (!employee) {
+            return res.status(404).json({ error: 'Employee not found' });
+        }
+
+        // Update the employee's data with the data from the request body
+        Object.assign(employee, req.body);
+
+        // Save the updated employee data
+        await employee.save();
+
+        return res.json({ message: 'Employee updated successfully', employee });
+    } catch (error) {
+        console.error('Error updating employee:', error.message);
+        return res.status(500).json({ error: 'Internal server error' });
     }
-    catch(error){
-        console.log(error.message);
+});
+
+
+
+
+
+// DELETE endpoint to delete a single document by ID
+// If empid is your unique identifier, query by it
+app.delete('/deleteemployee/:empid', async (req, res) => {
+    const employeeEmpid = req.params.empid;
+    console.log("Deleting employee with empid:", employeeEmpid);
+
+    try {
+        const deletedEmployee = await employees.deleteOne({ empid: employeeEmpid });
+        if (deletedEmployee.deletedCount === 0) {
+            console.log("Employee not found with empid:", employeeEmpid);
+            return res.status(404).json({ error: 'Employee not found' });
+        }
+        console.log("Employee deleted successfully");
+        return res.status(200).json({ message: 'Employee deleted successfully' });
+    } catch (error) {
+        console.error("Error deleting employee:", error.message);
+        return res.status(500).json({ error: 'Internal server error' });
     }
-})
+});
+
+  
+
+
+
+
+
+// //delete record from table
+
+// app.delete('/deleteemployee/:id', async(req,res)=>{
+//     try{
+//         await employeeSchema.findByIdAndDelete(req.params.id);
+//         return res.json({message: 'Employee Recode Deleted Successfully...'})
+//     }
+//     catch(error){
+//         console.log(error.message);
+//     }
+// })
 
 
 //Server Connection Establishment

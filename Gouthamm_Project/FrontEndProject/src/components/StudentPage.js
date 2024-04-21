@@ -71,7 +71,7 @@ const StudentPage=()=>{
                         </div>  
                         <div className="card-footer">
                                     <Link className="btn btn-sm btn-success" to="/NewStudentPage">Add Student</Link>
-                                    <Link className="btn btn-sm btn-danger" to="/Home" style={{marginLeft: 10}}>Back</Link>
+                                    <Link className="btn btn-sm btn-danger" to="/home" style={{marginLeft: 10}}>Back</Link>
 
                         </div>
 

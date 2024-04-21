@@ -11,7 +11,7 @@ const DeleteEmployee=()=>{
 
 
     const HandlerEmpDetails=()=>{
-        fetch('http://localhost:3030/employees/'+id).then((res)=>{
+        fetch('http://localhost:8000/deleteemployee/'+id).then((res)=>{
             return res.json();
         }).then((resp)=>{
             setempdatachange(resp);

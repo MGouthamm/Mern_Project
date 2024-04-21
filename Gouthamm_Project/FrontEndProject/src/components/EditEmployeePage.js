@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 const EditEmployee=()=>{
     const {id}=useParams();
 
-    console.log(id);
+    console.log("Empid in Edit Employee Page:",id);
 
    //const [empdata, setempdatachange] = useState([])
 
@@ -19,17 +19,19 @@ const EditEmployee=()=>{
     }
 
     const [editemployeedata, seteditemployeedata] = useState({
-        id: '',
-        name: '',
-        email: '',
-        phone: '',
-        role: '',
-        //active: true // Assuming active is initially true
+        empid:'',
+        empname:'',
+        empemail:'',
+        empphone:'',
+        emprole:'',
+        empactive:'true'
     });
 
+   
     // useEffect function to fetch employee data through id
     useEffect(() => {
-        fetch(`http://localhost:3030/employees/`+id)
+        fetch(`http://localhost:8000/getemployee/`+id)
+        //fetch(`http://localhost:3030/employees/`+id)
         //fetch(`https://projectdata-1-viir.onrender.com/employees`+id)
             .then(res => res.json())
             .then(resp => seteditemployeedata(resp))
@@ -46,23 +48,26 @@ const EditEmployee=()=>{
     //Handler function for edit employee
     const HandleProceedEditEmployee = (event) => {
         event.preventDefault();
-
-            //fetch(`http://localhost:3030/employees/`+id, {
-            fetch(`https://projectdata-1-viir.onrender.com/employees/`+id, {
+        const {empid, empname, empemail, empphone, emprole, empactive}= editemployeedata;
+        fetch(`http://localhost:8000/updateemployee/${id}`, {
             method: 'PUT',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(editemployeedata)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({empid, empname, empemail, empphone, emprole, empactive})
         })
-        .then(res => {
-            if (res.ok) {
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Failed to update employee details');
+                }
+                return res.json(); // Optionally, if server returns the updated record
+            })
+            .then((resp) => {
                 alert('Employee Details Changed Successfully...');
-                navigate('/EmployeeDetails');
-            } else {
-                throw new Error('Failed to update employee details');
-            }
-        })
-        .catch(err => alert('Error Updating the Employee Data: ' + err.message));
-        };
+                navigate('/EmployeeDetails'); // Redirect to employee details page
+            })
+            .catch((err) => {
+                alert('Error Updating the Employee Data: ' + err.message);
+            });
+    };
         
     return(
         <div>
@@ -83,41 +88,41 @@ const EditEmployee=()=>{
                                     <div className="col-lg-12">
                                         <div className="form-group">
                                             <label>ID <span className="errmsg">*</span></label>
-                                            <input className="form-control" name="id" value={editemployeedata.id} onChange={HandleEditEmployeeDataChange} />
+                                            <input className="form-control" name="empid" value={editemployeedata.empid} onChange={HandleEditEmployeeDataChange} />
                                         </div>
-                                        {editemployeedata.id.length==0 && <span className="errmsg">Enter ID</span>}
+                                        <span className="errmsg">Enter ID</span>
                                     </div>
                                      <div className="col-lg-12">
                                             <div className="form-group">
                                                 <label>Name <span className="errmsg">*</span></label>
-                                                <input className="form-control" name="name" value={editemployeedata.name} onChange={HandleEditEmployeeDataChange} />
+                                                <input className="form-control" name="empname" value={editemployeedata.empname} onChange={HandleEditEmployeeDataChange} />
                                             </div>
-                                            {editemployeedata.name.length==0 && <span className="errmsg">Enter Name</span>}
+                                            <span className="errmsg">Enter Name</span>
                                      </div>
                                      <div className="col-lg-12">
                                             <div className="form-group">
                                                 <label>Email <span className="errmsg">*</span></label>
-                                                <input className="form-control"name="email" value={editemployeedata.email} onChange={HandleEditEmployeeDataChange}  />
+                                                <input className="form-control"name="empemail" value={editemployeedata.empemail} onChange={HandleEditEmployeeDataChange}  />
                                             </div>
-                                            {editemployeedata.email.length==0 && <span className="errmsg">Enter email</span>}
+                                            && <span className="errmsg">Enter email</span>
                                      </div>
                                      <div className="col-lg-12">
                                             <div className="form-group">
                                                 <label>Phone <span className="errmsg">*</span></label>
-                                                <input className="form-control" name="phone" value={editemployeedata.phone} onChange={HandleEditEmployeeDataChange}  />
+                                                <input className="form-control" name="empphone" value={editemployeedata.empphone} onChange={HandleEditEmployeeDataChange}  />
                                             </div>
-                                            {editemployeedata.phone.length==0 && <span className="errmsg">Enter Phone Number</span>}
+                                            <span className="errmsg">Enter Phone Number</span>
                                     </div>
                                     <div className="col-lg-12">
                                             <div className="form-group">
                                                 <label>Role <span className="errmsg">*</span></label>
-                                                <input className="form-control" name="role" value={editemployeedata.role} onChange={HandleEditEmployeeDataChange}  />
+                                                <input className="form-control" name="emprole" value={editemployeedata.emprole} onChange={HandleEditEmployeeDataChange}  />
                                             </div>
-                                            {editemployeedata.role.length==0 && <span className="errmsg">Enter Role</span>}
+                                            <span className="errmsg">Enter Role</span>
                                     </div>
                                     <div className="col-lg-12">
                                             <div className="form-check">
-                                                <input type="checkbox" className="form-check-input" name="active" checked={active} onChange={HandleActive} />
+                                                <input type="checkbox" className="form-check-input" name="empactive" checked={editemployeedata.empactive} onChange={HandleActive} />
                                                 <label className="form-check-label">Is Active</label>
                                             </div>
                                             

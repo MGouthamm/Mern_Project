@@ -26,31 +26,53 @@ const EmployeeDetails=()=>{
 
 
     const HandlerLoadEmpDetails=(id)=>{
-        navigate('/employees/details/'+id);
+        navigate(`/employee/details/${id}`);
 
     }
     const HandlerEditEmp=(id)=>{
-        navigate('/employees/edit/'+id);
+        navigate('/employee/edit/'+id);
 
     }
-    const HandlerDeleteEmp=(id)=>{
-        if(window.confirm('Do you want to Delete Employee??')){
+    // const HandlerDeleteEmp=(id)=>{
+    //     if(window.confirm('Do you want to Delete Employee??')){
 
-            fetch('http://localhost:3030/employees/'+id,{
-            method:'DELETE'
-            }).then((res)=>{
-                alert('Employee Deleted Successfully...');
-                window.location.reload();
+    //         fetch('http://localhost:0/deleteemployee/'+id,{
+    //         method:'DELETE'
+    //         }).then((res)=>{
+    //             alert('Employee Deleted Successfully...');
+    //             window.location.reload();
                 
-            }).catch((err)=>{
-                alert("Failed to :"+err.message);
-            })
+    //         }).catch((err)=>{
+    //             alert("Failed to :"+err.message);
+    //         })
+    //     }
+
+    // }
+
+    const HandlerDeleteEmp = async (empid) => {
+        if(window.confirm("Do you want Delete Employee")){
+            try {
+                const response = await fetch(`http://localhost:8000/deleteemployee/${empid}`, {
+                    method: 'DELETE'
+                });
+        
+                if (!response.ok) {
+                    const error = await response.json();
+                    console.error("Error deleting employee:", error.error);
+                    return alert(error.error);
+                }
+        
+                const result = await response.json();
+                console.log("Success:", result.message);
+                alert('Employee Deleted Successfully...');    
+                window.location.reload();
+            } catch (error) {
+                console.error("Network or server error:", error.message);
+                alert("Error deleting employee");
+            }
         }
-
     }
-
-
-
+    
 
     const HandleFetchEmployees = async()=>{
         const response= await fetch("http://localhost:8000/getemployees")
@@ -117,7 +139,7 @@ const EmployeeDetails=()=>{
 
                 </div>
                 <div className="card-footer">
-                    <Link className="btn btn-sm btn-danger" style={{marginLeft: 10}} to="/Home">Back</Link>
+                    <Link className="btn btn-sm btn-danger" style={{marginLeft: 10}} to="/home">Back</Link>
 
                 </div>
 

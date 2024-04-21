@@ -60,36 +60,7 @@ const RegistrationPage=()=>{
     const PostRegistrationData = async (e)=>{
         e.preventDefault();
         const {username, password, fullname, email, phone, country,address, gender}=registrationdata;
-        // try{
-        //         const response =  fetch("http://localhost:8000/register", {
-        //             method:"POST",
-        //             headers:{'Content-type':'application/json'},
-        //             body:JSON.stringify({username, password, fullname, email, phone, country,address})
-        //             //mode:"no-cors"
-
-        //         });
-        //       //  console.log(response.json());
-
-        //         const data = response.json();
-                
-        //         console.log("Data:",data);
-        //         console.log("Data status:", data.status);
-
-
-        //         if(!data || data.status === '422' ){
-        //             window.alert("Invalid Registration");
-        //             console.log("Invalid Registration")
-        //         }
-        //         else{
-        //             window.alert("Registration Successfull.....");
-        //             console.log("Registraion Successfull...");
-        //             navigate('/');
-        //         }
-        //     }
-        // catch(error){
-        //     console.log(error.message);
-        // }
-
+    
         try{
 
             const response = await  fetch("http://localhost:8000/register", {
@@ -117,35 +88,7 @@ const RegistrationPage=()=>{
         catch (error) {
             console.error(error.message);
         }
-
-        
-    //   await  fetch("http://localhost:8000/register", {
-    //         method:"POST",
-    //         headers:{'Content-type':'application/json'},
-    //         body:JSON.stringify({username, password, fullname, email, phone, country,address, gender})
-    //      })
-    //      .then(response=>{
-    //         if(!response.ok){
-    //             if(!response || response.status === 422){
-    //                 window.alert("Invalid Registration, Username Already Exists ");
-    //                 console.log("Invalid Registration")
-    //             }else{
-    //                 throw new Error("Registraion Failed");
-    //             }  
-    //         }
-    //         else{
-    //             window.alert("Registration Successfull.....");
-    //             console.log("Registraion Successfull...");
-    //             navigate('/');
-    //         }
-    //         return response.json();
-    //      })
-    //      .catch((error)=>{
-    //         console.log(error.message);
-    //      })
-        
-
-           
+       
         
     }
        
@@ -226,7 +169,7 @@ const RegistrationPage=()=>{
                         </div>
                         <div className="card-footer">
                             <button type="submit" className="btn btn-sm btn-primary" >Register</button>
-                            <Link className="btn btn-sm btn-danger" style={{marginLeft: 10}} to="/">Back</Link>
+                            <Link className="btn btn-sm btn-danger" style={{marginLeft: 10}} to="/login">Back</Link>
 
                             {/* <a className="btn btn-sm btn-danger" style={{marginLeft: 10}}>Back</a> */}
                         </div>

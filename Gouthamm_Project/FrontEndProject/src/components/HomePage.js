@@ -29,7 +29,7 @@ const HomeComponent=()=>{
             console.log("Homepage Response Data:",data);
 
              // Access the username from the data object
-             const user = data[0].fullname;
+             const user = data[0].email;
            
             // Now you can use the `username` variable as needed
             console.log("User logged:", user);
@@ -59,7 +59,7 @@ const HomeComponent=()=>{
     //    sessionStorage.clear();
         localStorage.clear();
         // Redirect to the login page or any other appropriate action
-        window.location.href = '/'; // Redirect to the login page
+        window.location.href = '/login'; // Redirect to the login page
       }
 
       const loggedInuser= localStorage.getItem("authenticated");
@@ -72,7 +72,7 @@ const HomeComponent=()=>{
                      <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
                          <div className="col-lg-3">
-                             <img src="clg_logo.png" style={{height: 50, width: 50}} alt="Logo"/>
+                             {/* <img src="clg_logo.png" style={{height: 50, width: 50}} alt="Logo"/> */}
                              <Link to="" className="text-secondary" style={{textDecoration:"none", marginLeft: 10, fontSize: 30, fontWeight:"bold"}}>MERN PROJECT</Link>
                          </div>
                          <div className="col-lg-3">
@@ -84,15 +84,11 @@ const HomeComponent=()=>{
                                              </li> */}
                                            
                                              <li class="nav-item">
-                                                 <a class="nav-link active" aria-current="page" href="#">
-                                                     <Link to="/StudentPage" style={{textDecoration:"none"}}>Students</Link>
-                                                 </a>
+                                                     <Link to="/StudentPage" className="btn btn-outline-primary" type="button"  style={{textDecoration:"none",  fontWeight: "bold"}}>Students</Link>
                                              </li>
                                                                                         
                                              <li class="nav-item">
-                                                 <a class="nav-link active" aria-current="page" href="#">
-                                                     <Link to="/EmployeeDetails" style={{textDecoration:"none"}}>Employees</Link>
-                                                 </a>
+                                                     <Link to="/EmployeeDetails" className="btn btn-outline-primary" type="button" style={{textDecoration:"none", marginLeft: 10, fontWeight: "bold"}}>Employees</Link>
                                              </li>
                                                                                                                                    
                                          </ul>
@@ -103,11 +99,11 @@ const HomeComponent=()=>{
                                          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                                          <button class="btn btn-outline-success" type="submit">Search</button>
                                  </form> */}
-                                 <h6 className="text-danger" style={{fontSize: 14}}>Hi, {name}</h6>
+                                 <h6 className="text-danger" style={{fontSize: 18}}>Hi, {name}</h6>
                                 
                          </div>
                          <div className="col-auto" style={{marginLeft: 30}}>
-                                 <a class="nav-link active" aria-current="page" href="#" style={{marginLeft: 10, fontSize: 14}} onClick={handleLogout}>Logout</a>
+                                 <Link to='/login' className="btn btn-outline-primary" type="button"  style={{textDecoration:"none", marginLeft: 10, fontWeight: "bold"}} onClick={handleLogout}>Logout</Link>
                          </div>
                      </nav>
                      </div>

@@ -1,13 +1,10 @@
 //import logo from './logo.svg';
-import { BrowserRouter, Link, Outlet, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Link, Outlet, Route, Routes } from 'react-router-dom';
   
 import './App.css';
 
-
-import HomePage from './components/Home';
 import StudentPage from './components/StudentPage';
 import AddStudentComponent from './components/NewStudentPage';
-import HomePageComponent from './components/Home';
 import RegistrationPage from './components/RegistrationPage';
 import EmployeeDetails from './components/EmployeeDetails';
 import DetailsEmployee from './components/DetailsEmployeePage';
@@ -16,7 +13,7 @@ import EditEmployee from './components/EditEmployeePage';
 import GenderSelection from './components/Gender';
 import Login from './components/LoginPage';
 import HomeComponent from './components/HomePage';
-
+import { useState } from 'react';
 
 
 
@@ -27,33 +24,28 @@ import HomeComponent from './components/HomePage';
 
 
 function App() {
-  return (
+
+    return (
     <div className="App">
        
       <h3 className='text-secondary' style={{textAlign: 'center'}}>Welcome to Sample MERN Project</h3>
-
-            
       <div className='container-fluid'>
 
-      <BrowserRouter>
+      <BrowserRouter> 
           <Routes>
-            <Route  path='/' element={<Login/>}/>
-            <Route path='/login' element={<Login/>}/>
-            {/* <Route path='/home' element={<HomePageComponent/>}/> */}
+            <Route  path='/MERN-STACK/' element={<Login/>}/>
+            <Route exact path='/login' element={<Login/>}/>
             <Route path='/home' element={<HomeComponent/>}/>
 
            {/* <ProtectedRoute path='/Home'><HomePageComponent/></ProtectedRoute> */}
             <Route path='/StudentPage' element={<StudentPage/>}/>
+
             <Route path='/NewStudentPage' element={<AddStudentComponent/>}/>
             <Route path='/register' element={<RegistrationPage/>}/>
             <Route path='/EmployeeDetails' element={<EmployeeDetails/>}/>
             <Route path='/createemployee' element={<CreateEmployee/>}/>
             <Route path='/employee/edit/:id' element={<EditEmployee/>}/>
             <Route path='/employee/details/:id' element={<DetailsEmployee/>}/>
-
-
-            
-
           </Routes>
       </BrowserRouter>
       </div>  
