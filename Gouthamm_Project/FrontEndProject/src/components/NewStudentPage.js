@@ -36,18 +36,22 @@ const AddStudentComponent=()=>{
   
       const HandleAddStudent=(event)=>{
           event.preventDefault();
-         //console.log(newstddata);
-         fetch("http://localhost:3030/students",{
-        //fetch("https://projectdata-1-viir.onrender.com/students",{
-            method:"POST",
-            headers:{'Content-type':'application/json'},
-            body:JSON.stringify(newstddata)
-          }).then((res)=>{
-            alert("Student Registered Successfully");
-            navigate('/StudentPage')
-          }).catch((err)=>{
-            alert('Failed:'+err.message);
-          })
+        //  //console.log(newstddata);
+        //  fetch("http://localhost:3030/students",{
+        // //fetch("https://projectdata-1-viir.onrender.com/students",{
+        //     method:"POST",
+        //     headers:{'Content-type':'application/json'},
+        //     body:JSON.stringify(newstddata)
+        //   }).then((res)=>{
+        //     alert("Student Registered Successfully");
+        //     navigate('/StudentPage')
+        //   }).catch((err)=>{
+        //     alert('Failed:'+err.message);
+        //   })
+
+
+        // Write code for post method using fetch API
+
     }
   
       return(

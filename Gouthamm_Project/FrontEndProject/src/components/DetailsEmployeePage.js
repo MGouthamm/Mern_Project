@@ -55,16 +55,7 @@ console.log("Employee Details:",empdata);
                     <h4 className="text-primary" style={{textAlign:"center"}}>Employee Details</h4>
                 </div>
                 <div className="card-body">
-                    
-                        {/* <div>
-                            <h3>Employee Name: <b className="text-secondary">{empdata.empname}</b> </h3>
-                            <h3>Employee ID: <span className="text-danger">{empdata.empid}</span> </h3>
-                            <h4>Contact Details:</h4>
-                            <h5>Email: <span className="text-secondary">{empdata.empemail}</span></h5>
-                            <h5>Phone: <sapn className="text-secondary">{empdata.empphone}</sapn></h5>
-                        
-                        </div> */}
-
+                                           
                         <div class="card text-white bg-info mb-3">
                             <div class="card-header text-danger" style={{fontSize: 18, fontWeight: 'bold'}}>{empdata.empid}</div>
                                 <div class="card-body">
